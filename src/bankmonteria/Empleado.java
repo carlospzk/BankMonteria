@@ -17,7 +17,7 @@ public class Empleado extends Persona {
   }
 
   //Constructor super con parametros
-  public Empleado(String identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String cargo, boolean turno) {
+  public Empleado(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String cargo, String cargoEmpleadoDescription) {
     super(identificacion, nombre, apellido, fechaNacimiento, direccion);
     this.cargo = cargo;
     this.turno = turno;
@@ -40,7 +40,7 @@ public class Empleado extends Persona {
     this.turno = turno;
   }
 
-  public void setIdentificacion(String identificacion) {
+  public void setIdentificacion(int identificacion) {
     this.identificacion = identificacion;
   }
 
@@ -62,7 +62,7 @@ public class Empleado extends Persona {
 
   @Override
   public String toString() {
-    return "Empleado{" + "identificacion=" + identificacion + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion + ", cargo=" + cargo + ", turno=" + turno + '}';
+    return super.toString() + "Empleado{" + "cargo=" + cargo + ", turno=" + turno + '}';
   }
 
   

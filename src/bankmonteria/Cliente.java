@@ -9,15 +9,17 @@ import java.util.Date;
  */
 public class Cliente extends Persona{
   private String tipoCuenta;
+  private String numeroCuenta;
   private String estadoCuenta;
-
+  private double saldo;
+  
   //Constructor super vacio
   public Cliente() {
     super();
   }
 
   //Constructor super con parametros
-  public Cliente(String identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String tipoCuenta, String estadoCuenta) {
+  public Cliente(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String tipoCuenta, String estadoCuenta) {
     super(identificacion, nombre, apellido, fechaNacimiento, direccion);
     this.tipoCuenta = tipoCuenta;
     this.estadoCuenta = estadoCuenta;
@@ -41,7 +43,7 @@ public class Cliente extends Persona{
     this.estadoCuenta = estadoCuenta;
   }
 
-  public void setIdentificacion(String identificacion) {
+  public void setIdentificacion(int identificacion) {
     this.identificacion = identificacion;
   }
 

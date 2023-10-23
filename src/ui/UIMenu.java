@@ -8,9 +8,36 @@ import javax.swing.JOptionPane;
  * @author sergio
  */
 public class UIMenu {
-
+/* 
     //Menú con JOption
-    public static void showMenu() {
+    
+                    //Realizar retiros
+                    JOptionPane.showMessageDialog(null, "Realizar retiros");
+
+
+
+                    break;
+
+                case 7:
+                    //Actualizar datos de los clientes
+                    JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
+
+
+
+
+                    break;
+
+                case 8:
+                    //Auditoría
+
+                    JOptionPane.showMessageDialog(null, "Auditoría");
+
+
+                    break;
+
+                case 9:
+                    //Salir
+                    JOptionPane.showMpublic static void showMenu() {
 
         int opcion = 0;
 
@@ -26,12 +53,20 @@ public class UIMenu {
                     + "8. Auditoría\n"
                     + "9. Salir\n"
                     + "Ingrese una opción: "));
-                   
+
 
             switch (opcion) {
                 case 1:
                     //Crear Empleados
                     JOptionPane.showMessageDialog(null, "Crear Empleados");
+                    JOptionPane.showMessageDialog(null, "Ingrese su numero de identificacion: ");
+                    //Guardar el numero de identificacion
+                    
+                    JOptionPane.showMessageDialog(null, "Ingrese su nombre: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su apellido: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su fecha de nacimiento: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su direccion: ");
+
                     
 
                     
@@ -69,34 +104,7 @@ public class UIMenu {
 
                     break;
 
-                case 6:
-                    //Realizar retiros
-                    JOptionPane.showMessageDialog(null, "Realizar retiros");
-
-
-
-                    break;
-
-                case 7:
-                    //Actualizar datos de los clientes
-                    JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
-
-
-
-
-                    break;
-
-                case 8:
-                    //Auditoría
-
-                    JOptionPane.showMessageDialog(null, "Auditoría");
-
-
-                    break;
-
-                case 9:
-                    //Salir
-                    JOptionPane.showMessageDialog(null, "Salir");
+                case 6:essageDialog(null, "Salir");
 
                     break;
 
@@ -121,7 +129,7 @@ public class UIMenu {
 
     }
 
-
+*/ 
 
 
 

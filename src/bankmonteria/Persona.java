@@ -8,7 +8,7 @@ import java.util.Date;
  * @author sergio
  */
 public class Persona {
-    protected String identificacion;
+    protected int identificacion;
     protected String nombre;
     protected String apellido;
     protected Date fechaNacimiento;
@@ -20,7 +20,7 @@ public class Persona {
     }
 
     //Constructor con parámetros
-    public Persona(String identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion) {
+    public Persona(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion) {
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -29,8 +29,8 @@ public class Persona {
     }
 
     //Métodos getters y setters
-    public String getId() {
-        return id;
+    public int getIdentificacion() {
+        return identificacion;
     }
 
     public String getNombre() {
@@ -49,8 +49,8 @@ public class Persona {
         return direccion;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public void setId(int identificacion){
+        this.identificacion = identificacion;
     }
 
     public void setNombre(String nombre){

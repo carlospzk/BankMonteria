@@ -29,8 +29,8 @@ public class Cargo {
     this.code = code;
   }
 
-  public void setDescription(String decscription) {
-    this.description = decscription;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
 
