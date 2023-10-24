@@ -1,6 +1,7 @@
 
 package bankmonteria;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,8 +19,9 @@ public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws ParseException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         
         
     //ArrayList Empleado
@@ -74,12 +76,17 @@ public class Main {
                 
                     //Crear Empleados
                     JOptionPane.showMessageDialog(null, "Crear Empleados");
+                    //Mostrar todos los Empleados creados
+                    if(empleados.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Empleados: \n" + empleados.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay empleados creados, por favor cree un empleado primero.");
+                    }
                     
 
                     break;
                 case 2:
                     //Crear Clientes
-                    JOptionPane.showMessageDialog(null, "Crear Clientes");
                     if(empleados.size() > 0){
                         JOptionPane.showMessageDialog(null, "Empleados: \n" + empleados.toString());
                     }else{
@@ -93,6 +100,9 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Cliente creado: \n" + cliente.toString());
 
                     clientes.add(cliente);
+                    
+                    JOptionPane.showMessageDialog(null, "Crear Clientes");
+                    
 
 
 
@@ -169,14 +179,48 @@ public class Main {
         String identificacionEmpleado = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
                     String nombreEmpleado = JOptionPane.showInputDialog("Ingrese su nombre: ");
                     String apellidoEmpleado = JOptionPane.showInputDialog("Ingrese su apellido: ");
-                    String input = JOptionPane.showInputDialog("Ingrese la fecha de nacimiento del usuario " + (i + 1) + " en formato dd/MM/yyyy: ");
 
-            String[] parts = input.split("/");
-            int day = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]);
-            int year = Integer.parseInt(parts[2]);
+                    // Pedir la fecha de nacimiento como string
+                    String fechaNacimientoEmpleadoStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+
+                    // Crear un objeto SimpleDateFormat para parsear la fecha
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    // Parsear la fecha de nacimiento
+                    Date fechaNacimientoEmpleado = null;
+                    try {
+                        fechaNacimientoEmpleado = sdf.parse(fechaNacimientoEmpleadoStr);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Mostrar fecha en calendario
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(fechaNacimientoEmpleado);
+                    //Mostrar edad en años
+                    int edad = calendar.get(Calendar.YEAR);
+                    //Mostrar edad en meses
+                    int edadMeses = calendar.get(Calendar.MONTH);
+                    //Mostrar edad en dias
+                    int edadDias = calendar.get(Calendar.DAY_OF_MONTH);
+                    //Mostrar edad en horas
+                    int edadHoras = calendar.get(Calendar.HOUR_OF_DAY);
+                    //Mostrar edad en minutos
+                    int edadMinutos = calendar.get(Calendar.MINUTE);
+                    //Mostrar edad en segundos
+                    int edadSegundos = calendar.get(Calendar.SECOND);
+
+                    //Obtener la fecha actual
+                    Date now = new Date();
+
 
                     
+
+
+
+                    
+
+
 
                     String direccionEmpleado = JOptionPane.showInputDialog("Ingrese su direccion: ");
 
@@ -219,12 +263,16 @@ public class Main {
                         }
                     }
 
+        //Crear el objeto empleado mostrando la fecha de nacimiento y edad
+
+        Empleado empleado = new Empleado(Integer.parseInt(identificacionEmpleado), nombreEmpleado, apellidoEmpleado, fechaNacimientoEmpleado, direccionEmpleado, cargoEmpleado, cargoEmpleadoDescription);
         
-        Empleado empleado = new Empleado(Integer.parseInt(identificacionEmpleado), nombreEmpleado, apellidoEmpleado, fechaNacimientoFormatead, direccionEmpleado, cargoEmpleado, cargoEmpleadoDescription);
 
         return empleado;
+
         
                     
+
 
 
     }
