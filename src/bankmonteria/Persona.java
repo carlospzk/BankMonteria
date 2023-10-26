@@ -13,7 +13,6 @@ public class Persona {
     protected String apellido;
     protected Date fechaNacimiento;
     protected String direccion;
-    private String id;
 
     //Constructor vacío
     public Persona() {
@@ -68,6 +67,8 @@ public class Persona {
     public void setDireccion(String direccion){
         this.direccion = direccion;
     }
+
+
 
     //Polimorfismo
     @Override

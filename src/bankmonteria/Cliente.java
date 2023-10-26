@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class Cliente extends Persona{
   private String tipoCuenta;
-  private String numeroCuenta;
-  private String estadoCuenta;
+  private int numeroCuenta;
+  private boolean estadoCuenta;
   private double saldo;
   
   //Constructor super vacio
@@ -19,11 +19,14 @@ public class Cliente extends Persona{
   }
 
   //Constructor super con parametros
-  public Cliente(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String tipoCuenta, String estadoCuenta) {
+  public Cliente(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String tipoCuenta, int numeroCuenta, boolean estadoCuenta, double saldo) {
     super(identificacion, nombre, apellido, fechaNacimiento, direccion);
     this.tipoCuenta = tipoCuenta;
+    this.numeroCuenta = numeroCuenta;
     this.estadoCuenta = estadoCuenta;
+    this.saldo = saldo;
   }
+  
 
 
   //Getters y Setters
@@ -35,13 +38,31 @@ public class Cliente extends Persona{
     this.tipoCuenta = tipoCuenta;
   }
 
-  public String getEstadoCuenta() {
+  public int getNumeroCuenta() {
+    return numeroCuenta;
+  }
+
+  public void setNumeroCuenta(int numeroCuenta) {
+    this.numeroCuenta = numeroCuenta;
+  }
+
+  public boolean getEstadoCuenta() {
     return estadoCuenta;
   }
 
-  public void setEstadoCuenta(String estadoCuenta) {
+  public void setEstadoCuenta(boolean estadoCuenta) {
     this.estadoCuenta = estadoCuenta;
   }
+
+  public double getSaldo() {
+    return saldo;
+  }
+
+  public void setSaldo(double saldo) {
+    this.saldo = saldo;
+  }
+
+
 
   public void setIdentificacion(int identificacion) {
     this.identificacion = identificacion;
@@ -66,8 +87,9 @@ public class Cliente extends Persona{
 
   @Override
   public String toString() {
-    return "Cliente{" + "identificacion=" + identificacion + ", nombres=" + nombre + ", apellidos=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion + ", tipoCuenta=" + tipoCuenta + ", estadoCuenta=" + estadoCuenta + '}';
-}
+    return super.toString() + "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
+  }
+  
   
 
 

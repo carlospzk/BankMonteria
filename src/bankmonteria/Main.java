@@ -93,15 +93,16 @@ public class Main {
 
                     //cliente = createCliente(empleados);
 
+                
+
+                //Mostrar todos los Clientes creados
+                if(empleados.size() > 0){
+                    JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
                 JOptionPane.showMessageDialog(null, "Cliente creado: \n" + cliente.toString());
 
                 JOptionPane.showMessageDialog(null, "Crear Clientes");
 
                 clientes.add(cliente);
-
-                //Mostrar todos los Clientes creados
-                if(clientes.size() > 0){
-                    JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
                 }else{
                     JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
                 }
@@ -264,9 +265,21 @@ public class Main {
                         }
                     }
 
-        //Crear el objeto empleado mostrando la fecha de nacimiento y edad
+                    //Desplegar select con los turnos
+                    String turnoEmpleado = ChooseTurn();
+        
+                System.out.println(turnoEmpleado);
 
-        Empleado empleado = new Empleado(Integer.parseInt(identificacionEmpleado), nombreEmpleado, apellidoEmpleado, fechaNacimientoEmpleado, direccionEmpleado, cargoEmpleado, cargoEmpleadoDescription);
+                boolean isTurnoEmpleado = turnoEmpleado.equals("Activo");
+
+                System.out.println("Turno");
+        
+                System.out.println(isTurnoEmpleado);
+
+
+
+        //Crear el objeto empleado
+        Empleado empleado = new Empleado(Integer.parseInt(identificacionEmpleado), nombreEmpleado, apellidoEmpleado, fechaNacimientoEmpleado, direccionEmpleado, cargoEmpleado, cargoEmpleadoDescription, isTurnoEmpleado);
         
 
         return empleado;
@@ -365,16 +378,46 @@ public class Main {
         return false;
     }
 
+    //Choose turn
+    static String ChooseTurn() {
+        int opcionT;
+
+        do {
+            String[] optionT1 = {
+                "1. Activo",
+                "2. Inactivo"
+            };
+
+            opcionT = JOptionPane.showOptionDialog(null, "Seleccione un turno", "Turno", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, optionT1, optionT1[0]);
+
+            switch (opcionT){
+                case 0:
+                    return "Activo";
+                case 1:
+                    return "Inactivo";
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida");
+                    break;
+            }
+
+
+
+            } while(opcionT != 0 && opcionT != 1);
+            return "";
+        }
+
+
 
 
 
     //Crear cliente
     static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
         
-
-
-
-                String identificacionCliente = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
+        
+        
+        
+        //Crear Clientes
+                    String identificacionCliente = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
                     String nombreCliente = JOptionPane.showInputDialog("Ingrese su nombre: ");
                     String apellidoCliente = JOptionPane.showInputDialog("Ingrese su apellido: ");
 
@@ -460,10 +503,31 @@ public class Main {
                         }
                     }
 
-        //Crear el objeto cliente mostrando la fecha de nacimiento y edad
+                    //Mostrar tipo de cuenta
+                    JOptionPane.showMessageDialog(null, "Tipo de cuenta: " + tipoCuentaClienteDescription);
 
-        Cliente cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente, fechaNacimientoCliente, direccionCliente, tipoCuentaCliente, tipoCuentaClienteDescription);
+                    //Numero de cuenta del cliente aleatorio de 5 digitos e irrepetible
+                    int numeroCuentaCliente = (int) (Math.random() * 90000) + 10000;
+                    JOptionPane.showMessageDialog(null, "Numero de cuenta: " + numeroCuentaCliente);
 
+                    //
+
+                    //Desplegar select con los estados de cuenta
+                    String estadoCuentaCliente = ChooseEstadoCuentaCliente();
+                    boolean isEstadoCuentaCliente = estadoCuentaCliente.equals("Activa");
+                    System.out.println("Estado de cuenta");
+                    System.out.println(isEstadoCuentaCliente);
+
+                    //Saldo inicial del cliente
+                    double saldoInicialCliente = 0;
+                    JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialCliente);
+
+                    
+
+
+        //Crear el objeto cliente mostrando la fecha de nacimiento y edad, tipo de cuenta, numero de cuenta, estado de cuenta y saldo inicial
+        Cliente cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente, fechaNacimientoCliente, direccionCliente, tipoCuentaCliente, numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
+        
         return cliente;
     }
 
@@ -497,6 +561,33 @@ public class Main {
         // retornar falso si el código del tipo de cuenta no es igual al código que se está buscando
         return false;
     }
+
+    //Estado cuenta Cliente
+    static String ChooseEstadoCuentaCliente() {
+        int opcionEC;
+
+        do {
+            String[] optionEC1 = {
+                "1. Activa",
+                "2. Inactiva"
+            };
+
+            opcionEC = JOptionPane.showOptionDialog(null, "Seleccione el estado de su cuenta", "Estado de cuenta", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, optionEC1, optionEC1[0]);
+
+            switch (opcionEC){
+                case 0:
+                    return "Activa";
+                case 1:
+                    return "Inactiva";
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida");
+                    break;
+            }
+        } while(opcionEC != 0 && opcionEC != 1);
+        return "";
+    }
+
+    
 
 
 
