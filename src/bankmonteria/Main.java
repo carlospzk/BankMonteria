@@ -21,13 +21,14 @@ public class Main {
      * @param args the command line arguments
      * @throws ParseException
      */
+    private static ArrayList<Empleado> empleados = new ArrayList<>();
     public static void main(String[] args) throws ParseException {
         
         
     //ArrayList Empleado
     //ArrayList Cliente
     //ArrayList Tramite
-    ArrayList<Empleado> empleados = new ArrayList<>();
+    //ArrayList<Empleado> empleados = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
     ArrayList<Tramite> tramites = new ArrayList<>();
     ArrayList<Cargo> cargos = new ArrayList<>();
@@ -83,7 +84,6 @@ public class Main {
                     }else{
                         JOptionPane.showMessageDialog(null, "No hay empleados creados, por favor cree un empleado primero.");
                     }
-                    
 
                     break;
                 case 2:
@@ -176,6 +176,7 @@ public class Main {
 
         } while (opcion != 9);
     }
+    
 
     //Crear Empleado
     static Empleado createEmpleado(ArrayList<Cargo> cargos) {
@@ -412,10 +413,16 @@ public class Main {
 
     //Crear cliente
     static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
-        
-        
-        
-        
+
+        //Mostrar Empleado Asesor de Ventas en turno
+        String cargoEmpleado = "";
+                for(Empleado empleado : empleados){
+                if(empleado.getCargo().equals("1")){
+                    cargoEmpleado = empleado.getNombre();
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "El empleado Asesor de Ventas en turno es: " + cargoEmpleado);
+
         //Crear Clientes
                     String identificacionCliente = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
                     String nombreCliente = JOptionPane.showInputDialog("Ingrese su nombre: ");
@@ -587,7 +594,12 @@ public class Main {
         return "";
     }
 
-    
+
+
+
+
+
+
 
 
 
@@ -601,3 +613,17 @@ public class Main {
 
 
 }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
