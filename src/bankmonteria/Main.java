@@ -33,6 +33,7 @@ public class Main {
     ArrayList<Tramite> tramites = new ArrayList<>();
     ArrayList<Cargo> cargos = new ArrayList<>();
     ArrayList<tipoCuenta> tipoCuentas = new ArrayList<>();
+    
 
     //Crear cargos
     Cargo[] cargosArray = generateCargos();
@@ -40,6 +41,14 @@ public class Main {
     //Agregar cargos al arraylist
     for (int i = 0; i < cargosArray.length; i++) {
         cargos.add(cargosArray[i]);
+    }
+
+    //Crear tipos de cuenta
+    tipoCuenta[] tipoCuentasArray = generateTipoCuentas();
+
+    //Agregar tipos de cuenta al arraylist
+    for (int i = 0; i < tipoCuentasArray.length; i++) {
+        tipoCuentas.add(tipoCuentasArray[i]);
     }
 
     
@@ -91,18 +100,15 @@ public class Main {
 
                 Cliente cliente = new Cliente();
 
-                    //cliente = createCliente(empleados);
+                cliente = createCliente(tipoCuentas);
 
-                
-
-                //Mostrar todos los Clientes creados
-                if(empleados.size() > 0){
-                    JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
                 JOptionPane.showMessageDialog(null, "Cliente creado: \n" + cliente.toString());
 
-                JOptionPane.showMessageDialog(null, "Crear Clientes");
-
                 clientes.add(cliente);
+
+                //Mostrar clientes creados
+                if(clientes.size() > 0){
+                    JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
                 }else{
                     JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
                 }
@@ -277,6 +283,10 @@ public class Main {
         
                 System.out.println(isTurnoEmpleado);
 
+                //isAsesorVentas es true si el empleado es Asesor de Ventas y está en turno
+                boolean isAsesorVentas = cargoEmpleado.equals("1") && isTurnoEmpleado;
+
+
 
 
         //Crear el objeto empleado
@@ -414,6 +424,16 @@ public class Main {
     //Crear cliente
     static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
 
+        //Verificar que exista un empleado Asesor de Ventas en turno
+        boolean isAsesorVentas = false;
+        for(Empleado empleado : empleados){
+            if(empleado.getCargo().equals("1") && empleado.isTurno()){
+                isAsesorVentas = true;
+            }
+        }
+
+
+
         //Mostrar Empleado Asesor de Ventas en turno
         String cargoEmpleado = "";
                 for(Empleado empleado : empleados){
@@ -548,7 +568,7 @@ public class Main {
         return tipoCuentas;
     }
 
-    public static boolean validateTipoCuentaConCode(String code, ArrayList<tipoCuenta> tipoCuentas) {
+    public static boolean validateTipoCuentaConCode(String codigo, ArrayList<tipoCuenta> tipoCuentas) {
         // Obtener todos los tipos de cuenta de la clase tipoCuenta
         // recorrer los tipos de cuenta
         for (int i = 0; i < tipoCuentas.size(); i++) {
@@ -556,10 +576,10 @@ public class Main {
             tipoCuenta tipoCuenta = tipoCuentas.get(i);
 
             // obtener el código del tipo de cuenta actual
-            String codeTipoCuenta = tipoCuenta.getCodigo();
+            String codigoTipoCuenta = tipoCuenta.getCodigo();
 
             // comparar el código del tipo de cuenta actual con el código que se está buscando
-            if (codeTipoCuenta.equals(code)) {
+            if (codigoTipoCuenta.equals(codigoTipoCuenta)) {
                 // retornar verdadero si el código del tipo de cuenta es igual al código que se está buscando
                 return true;
             }
