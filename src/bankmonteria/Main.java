@@ -28,7 +28,7 @@ public class Main {
     //ArrayList Empleado
     //ArrayList Cliente
     //ArrayList Tramite
-    //ArrayList<Empleado> empleados = new ArrayList<>();
+    ArrayList<Empleado> empleados = new ArrayList<>();
     ArrayList<Cliente> clientes = new ArrayList<>();
     ArrayList<Tramite> tramites = new ArrayList<>();
     ArrayList<Cargo> cargos = new ArrayList<>();
@@ -98,7 +98,10 @@ public class Main {
                 case 2:
                     //Crear Clientes
 
-                Cliente cliente = new Cliente();
+                    if(empleados == null) {
+                        JOptionPane.showMessageDialog(null, "No hay empleados creados, por favor cree un empleado primero.");
+                    } else {
+                        Cliente cliente = new Cliente();
 
                 cliente = createCliente(tipoCuentas);
 
@@ -112,6 +115,9 @@ public class Main {
                 }else{
                     JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
                 }
+                    }
+
+                
 
 
 
@@ -125,8 +131,10 @@ public class Main {
 
                     break;
                 case 4:
-                    //Consulta de saldo disponible
+                    //Consulta de saldo disponible lo realiza el cajero y el cliente
                     JOptionPane.showMessageDialog(null, "Consulta de saldo disponible");
+
+
 
 
 
@@ -135,6 +143,8 @@ public class Main {
                 case 5:
                     //Realizar consignaciones
                     JOptionPane.showMessageDialog(null, "Realizar consignaciones");
+
+                    
 
 
 
@@ -272,6 +282,10 @@ public class Main {
                         }
                     }
 
+                    //Imprimir descripcion del cargo
+                    JOptionPane.showMessageDialog(null, "Cargo: " + cargoEmpleadoDescription);
+
+
                     //Desplegar select con los turnos
                     String turnoEmpleado = ChooseTurn();
         
@@ -283,8 +297,16 @@ public class Main {
         
                 System.out.println(isTurnoEmpleado);
 
+                //Imprimir descripcion del turno
+                JOptionPane.showMessageDialog(null, "Turno: " + turnoEmpleado);
+
                 //isAsesorVentas es true si el empleado es Asesor de Ventas y está en turno
                 boolean isAsesorVentas = cargoEmpleado.equals("1") && isTurnoEmpleado;
+
+                System.out.println("Asesor de ventas");
+
+                System.out.println(isAsesorVentas);
+
 
 
 
@@ -555,6 +577,25 @@ public class Main {
         //Crear el objeto cliente mostrando la fecha de nacimiento y edad, tipo de cuenta, numero de cuenta, estado de cuenta y saldo inicial
         Cliente cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente, fechaNacimientoCliente, direccionCliente, tipoCuentaCliente, numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
         
+                    System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
+                    "First Bank of Spring field - Monteria\n" +
+                    "Tramite: Creacion Cliente\n" + 
+                    "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n" +
+                    "Fecha de nacimiento: " + fechaNacimientoCliente + "\n" +
+                    "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
+                    "Direccion: " + direccionCliente + "\n" +
+                    "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
+                    "Numero de cuenta: " + numeroCuentaCliente + "\n" +
+                    "Estado de cuenta: " + estadoCuentaCliente + "\n" +
+                    "Saldo disponible" + saldoInicialCliente + "\n" +
+                    "...¡Tramite Creación de cliente exitoso!...\n" +
+                    "Atendido por el empleado: " + cargoEmpleado + "\n" +
+                    "Fecha: " + now + "\n" +
+                    "Hora: " + now + "\n" +
+                    ":::::::::::::::::::::::::::::::::::::::"
+
+                    );
+
         return cliente;
     }
 
