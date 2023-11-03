@@ -129,6 +129,8 @@ public class Main {
 
 
 
+
+
                     break;
                 case 4:
                     //Consulta de saldo disponible lo realiza el cajero y el cliente
@@ -152,8 +154,24 @@ public class Main {
                     break;
 
                 case 6:
-                    //Realizar retiros
+                    //Realizar retiros (realizado por el empleado cajero)
                     JOptionPane.showMessageDialog(null, "Realizar retiros");
+
+                    //Mostrar nombres de los empleados cajeros
+                    String nombreEmpleadoCajero = "";
+                    for(Empleado empleadoCajero : empleados){
+                        if(empleadoCajero.getCargo().equals("2")){
+                            nombreEmpleadoCajero = empleadoCajero.getNombre();
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(null, "El empleado cajero es: " + nombreEmpleadoCajero);
+
+
+
+
+
+
 
 
 
@@ -166,12 +184,23 @@ public class Main {
 
 
 
+
+
                     break;
 
                 case 8:
                     //Auditoría
 
                     JOptionPane.showMessageDialog(null, "Auditoría");
+
+                    //Mostrar todos los Tramites creados
+                    if(tramites.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
+                    }
+
+
 
 
                     break;
@@ -306,6 +335,15 @@ public class Main {
                 System.out.println("Asesor de ventas");
 
                 System.out.println(isAsesorVentas);
+
+                //isCajero es true si el empleado es Cajero y está en turno
+                boolean isCajero = cargoEmpleado.equals("2") && isTurnoEmpleado;
+
+                System.out.println("Cajero");
+
+                System.out.println(isCajero);
+
+
 
 
 
@@ -446,6 +484,37 @@ public class Main {
     //Crear cliente
     static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
 
+        //Switch case 1: Persona Particular, case 2: Empresas
+        int opcionCliente;
+
+        do {
+            String[] optionCliente1 = {
+                "1. Persona Particular",
+                "2. Empresas"
+            };
+
+            opcionCliente = JOptionPane.showOptionDialog(null, "Seleccione el tipo de cliente", "Tipo de cliente", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, optionCliente1, optionCliente1[0]);
+
+            switch (opcionCliente){
+                case 0:
+                    //Persona Particular
+                    JOptionPane.showMessageDialog(null, "Persona Particular");
+
+
+
+                    break;
+
+
+                case 1:
+                    //Empresas
+                    JOptionPane.showMessageDialog(null, "Empresas");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción inválida");
+                    break;
+            }
+        } while(opcionCliente != 0 && opcionCliente != 1);
+
         //Verificar que exista un empleado Asesor de Ventas en turno
         boolean isAsesorVentas = false;
         for(Empleado empleado : empleados){
@@ -515,6 +584,8 @@ public class Main {
                             e.printStackTrace();
                         }
                     }
+
+
 
                     String direccionCliente = JOptionPane.showInputDialog("Ingrese su direccion: ");
 

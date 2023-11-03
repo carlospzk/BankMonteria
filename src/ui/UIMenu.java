@@ -131,6 +131,53 @@ public class UIMenu {
 
 */ 
 
+    //Menú con JOption para crear cliente Particular y Empresa
+
+    public static void showMenu() {
+
+        int opcion = 0;
+
+        do {
+            opcion = Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Menú\n"
+                    + "1. Crear cliente Particular\n"
+                    + "2. Crear cliente Empresa\n"));
+            switch (opcion) {
+                case 1:
+                    //Crear cliente Particular
+                    JOptionPane.showMessageDialog(null, "Crear cliente Particular");
+                    JOptionPane.showMessageDialog(null, "Ingrese su numero de identificacion: ");                    
+                    JOptionPane.showMessageDialog(null, "Ingrese su nombre: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su apellido: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su fecha de nacimiento: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese su direccion: ");
+
+                    
+
+                    
+
+                    break;
+                case 2:
+                    //Crear cliente Empresa
+                    JOptionPane.showMessageDialog(null, "Crear cliente Empresa");
+                    JOptionPane.showMessageDialog(null, "Ingrese el numero de identificacion de la empresa: ");
+                    JOptionPane.showMessageDialog(null, "Ingrese el nombre de la empresa: ");
+                    
+                    break;
+                default:
+                    //Opción inválida 
+                    javax.swing.JOptionPane.showMessageDialog(null, "Opción inválida");
+                    
+                    
+                    break;
+
+            }
+        } while (opcion != 2);
+    }
+
+        
+
+
+
 
 
 
