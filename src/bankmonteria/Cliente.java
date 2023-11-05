@@ -13,8 +13,14 @@ public class Cliente extends Persona{
   private boolean estadoCuenta;
   private double saldo;
   
-  //Constructor super vacio
+
+  //Constructor vacio
   public Cliente() {
+  }
+
+  
+  //Constructor super vacio
+  public Cliente(int i, String nombreCliente, String apellidoCliente, Date fechaNacimientoCliente, String direccionCliente, String tipoCuentaCliente, String tipoCuentaClienteDescription, int numeroCuentaCliente, boolean isEstadoCuentaCliente, double saldoInicialCliente) {
     super();
   }
 
@@ -26,7 +32,7 @@ public class Cliente extends Persona{
     this.estadoCuenta = estadoCuenta;
     this.saldo = saldo;
   }
-  
+
 
 
   //Getters y Setters
@@ -62,8 +68,6 @@ public class Cliente extends Persona{
     this.saldo = saldo;
   }
 
-
-
   public void setIdentificacion(int identificacion) {
     this.identificacion = identificacion;
   }
@@ -84,11 +88,16 @@ public class Cliente extends Persona{
     this.direccion = direccion;
   }
 
+  
 
+  //Polimorfismo
   @Override
   public String toString() {
-    return super.toString() + "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
+    return "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
   }
+  
+
+
   
   
 

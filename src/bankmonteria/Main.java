@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 
 
@@ -97,25 +96,24 @@ public class Main {
                     break;
                 case 2:
                     //Crear Clientes
+                    JOptionPane.showMessageDialog(null, "Crear Clientes");
 
-                    if(empleados == null) {
-                        JOptionPane.showMessageDialog(null, "No hay empleados creados, por favor cree un empleado primero.");
-                    } else {
-                        Cliente cliente = new Cliente();
+                    //Crear clientes
+                    Cliente cliente = new Cliente();
 
-                cliente = createCliente(tipoCuentas);
+                    cliente = createCliente(tipoCuentas);
 
-                JOptionPane.showMessageDialog(null, "Cliente creado: \n" + cliente.toString());
+                    JOptionPane.showMessageDialog(null, "Cliente creado: \n" + cliente.toString());
 
-                clientes.add(cliente);
+                    clientes.add(cliente);
 
-                //Mostrar clientes creados
-                if(clientes.size() > 0){
-                    JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
-                }else{
-                    JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
-                }
+                    //Mostrar todos los Clientes creados
+                    if(clientes.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
                     }
+
 
                 
 
@@ -124,15 +122,6 @@ public class Main {
 
                     break;
                 case 3:
-                    //Crear trámites
-                    JOptionPane.showMessageDialog(null, "Crear trámites");
-
-
-
-
-
-                    break;
-                case 4:
                     //Consulta de saldo disponible lo realiza el cajero y el cliente
                     JOptionPane.showMessageDialog(null, "Consulta de saldo disponible");
 
@@ -141,19 +130,17 @@ public class Main {
 
 
                     break;
-
-                case 5:
+                case 4:
                     //Realizar consignaciones
                     JOptionPane.showMessageDialog(null, "Realizar consignaciones");
 
-                    
 
 
 
 
                     break;
 
-                case 6:
+                case 5:
                     //Realizar retiros (realizado por el empleado cajero)
                     JOptionPane.showMessageDialog(null, "Realizar retiros");
 
@@ -166,30 +153,23 @@ public class Main {
                     }
 
                     JOptionPane.showMessageDialog(null, "El empleado cajero es: " + nombreEmpleadoCajero);
+                    
 
 
 
 
+                    break;
 
-
-
+                case 6:
+                //Actualizar datos de los clientes
+                    JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
+                    
 
 
                     break;
 
                 case 7:
-                    //Actualizar datos de los clientes
-                    JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
-
-
-
-
-
-
-                    break;
-
-                case 8:
-                    //Auditoría
+                //Auditoría
 
                     JOptionPane.showMessageDialog(null, "Auditoría");
 
@@ -203,13 +183,20 @@ public class Main {
 
 
 
+
+
                     break;
 
-                case 9:
-                    //Salir
+                case 8:
+                //Salir
                     JOptionPane.showMessageDialog(null, "Salir");
+                    
+
+
+
 
                     break;
+
 
                 default:
                     //Opción inválida 
@@ -219,7 +206,7 @@ public class Main {
                     break;
             }
 
-        } while (opcion != 9);
+        } while (opcion != 8);
     }
     
 
@@ -483,37 +470,7 @@ public class Main {
 
     //Crear cliente
     static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
-
-        //Switch case 1: Persona Particular, case 2: Empresas
-        int opcionCliente;
-
-        do {
-            String[] optionCliente1 = {
-                "1. Persona Particular",
-                "2. Empresas"
-            };
-
-            opcionCliente = JOptionPane.showOptionDialog(null, "Seleccione el tipo de cliente", "Tipo de cliente", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, optionCliente1, optionCliente1[0]);
-
-            switch (opcionCliente){
-                case 0:
-                    //Persona Particular
-                    JOptionPane.showMessageDialog(null, "Persona Particular");
-
-
-
-                    break;
-
-
-                case 1:
-                    //Empresas
-                    JOptionPane.showMessageDialog(null, "Empresas");
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Opción inválida");
-                    break;
-            }
-        } while(opcionCliente != 0 && opcionCliente != 1);
+        //Crear clientes
 
         //Verificar que exista un empleado Asesor de Ventas en turno
         boolean isAsesorVentas = false;
@@ -525,14 +482,15 @@ public class Main {
 
 
 
-        //Mostrar Empleado Asesor de Ventas en turno
-        String cargoEmpleado = "";
-                for(Empleado empleado : empleados){
-                if(empleado.getCargo().equals("1")){
-                    cargoEmpleado = empleado.getNombre();
-                    }
-                }
-                JOptionPane.showMessageDialog(null, "El empleado Asesor de Ventas en turno es: " + cargoEmpleado);
+        //Desplegar select para elegir el empleado Asesor de Ventas
+        String nombreEmpleadoAsesorVentas = "";
+        for(Empleado empleadoAsesorVentas : empleados){
+            if(empleadoAsesorVentas.getCargo().equals("1") && empleadoAsesorVentas.isTurno()){
+                nombreEmpleadoAsesorVentas = empleadoAsesorVentas.getNombre();
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "El empleado Asesor de Ventas es: " + nombreEmpleadoAsesorVentas);
 
         //Crear Clientes
                     String identificacionCliente = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
@@ -585,8 +543,6 @@ public class Main {
                         }
                     }
 
-
-
                     String direccionCliente = JOptionPane.showInputDialog("Ingrese su direccion: ");
 
                     //Desplegar select con los tipos de cuenta
@@ -623,9 +579,42 @@ public class Main {
                         }
                     }
 
+                //Inicializar varibles informacion adicional al seleccionar el tipo de cuenta Corriente
+                String nombreEmpresa = "";
+                int nit = 0;
+                int telefonoEmpresa = 0;
+                String nombreRepresentante = "";
+                int telefonoRepresentante = 0;
+                String direccionEmpresa = "";
+
+                    //Condicion para imprimir informacion adicional al seleccionar el tipo de cuenta Corriente
+                    if(tipoCuentaCliente.equals("2")) {
+                        JOptionPane.showMessageDialog(null, "Informacion adicional al seleccionar el tipo de cuenta Corriente");
+                        //Guardar nombre de la empresa
+                        nombreEmpresa = JOptionPane.showInputDialog("Ingrese el nombre de la empresa: ");
+                        //Guardar NIT de la empresa
+                        nit = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el NIT de la empresa: "));
+                        System.out.println("NIT de la empresa" + nit);
+                        //Guardar numero de telefono de la empresa
+                        telefonoEmpresa = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de telefono de la empresa: "));
+                        System.out.println("Numero de telefono de la empresa" + telefonoEmpresa);
+                        //Guardar nombre del representante legal de la empresa
+                        nombreRepresentante = JOptionPane.showInputDialog("Ingrese el nombre del representante legal de la empresa: ");
+                        System.out.println("Nombre del representante legal de la empresa" + nombreRepresentante);
+                        //Guardar numero de identificacion del representante legal de la empresa
+                        telefonoRepresentante = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de identificacion del representante legal de la empresa: "));
+                        System.out.println("Numero de identificacion del representante legal de la empresa" + telefonoRepresentante);
+                        //Guardar numero de telefono del representante legal de la empresa
+                        JOptionPane.showMessageDialog(null, "Ingrese el numero de telefono del representante legal de la empresa: ");
+                        System.out.println("Numero de telefono del representante legal de la empresa" + telefonoRepresentante);
+                        //Guardar numero de telefono del representante legal de la empresa
+                        direccionEmpresa = JOptionPane.showInputDialog("Ingrese el numero de telefono del representante legal de la empresa: ");
+                        System.out.println("Direccion de la empresa" + direccionEmpresa);
+                    }
                     //Mostrar tipo de cuenta
                     JOptionPane.showMessageDialog(null, "Tipo de cuenta: " + tipoCuentaClienteDescription);
-
+                    
+                    
                     //Numero de cuenta del cliente aleatorio de 5 digitos e irrepetible
                     int numeroCuentaCliente = (int) (Math.random() * 90000) + 10000;
                     JOptionPane.showMessageDialog(null, "Numero de cuenta: " + numeroCuentaCliente);
@@ -642,12 +631,14 @@ public class Main {
                     double saldoInicialCliente = 0;
                     JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialCliente);
 
-                    
+        //Imprimir datos del cliente
 
-
-        //Crear el objeto cliente mostrando la fecha de nacimiento y edad, tipo de cuenta, numero de cuenta, estado de cuenta y saldo inicial
-        Cliente cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente, fechaNacimientoCliente, direccionCliente, tipoCuentaCliente, numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
         
+                    
+                    
+        //Crear el objeto cliente
+        Cliente cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente, fechaNacimientoCliente, direccionCliente, tipoCuentaCliente, tipoCuentaClienteDescription, numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
+                    
                     System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                     "First Bank of Spring field - Monteria\n" +
                     "Tramite: Creacion Cliente\n" + 
@@ -656,19 +647,31 @@ public class Main {
                     "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
                     "Direccion: " + direccionCliente + "\n" +
                     "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
+                    //Condicion para imprimir informacion adicional al seleccionar el tipo de cuenta Corriente
+                    (tipoCuentaCliente.equals("2") ? "Nombre de la empresa: " + nombreEmpresa + "\n" +
+                    "NIT de la empresa: " + nit + "\n" +
+                    "Numero de telefono de la empresa: " + telefonoEmpresa + "\n" +
+                    "Nombre del representante legal de la empresa: " + nombreRepresentante + "\n" +
+                    "Numero de identificacion del representante legal de la empresa: " + telefonoRepresentante + "\n" +
+                    "Direccion de la empresa: " + direccionEmpresa + "\n" : "") +
+                    "" +
                     "Numero de cuenta: " + numeroCuentaCliente + "\n" +
                     "Estado de cuenta: " + estadoCuentaCliente + "\n" +
-                    "Saldo disponible" + saldoInicialCliente + "\n" +
+                    "Saldo disponible: " + saldoInicialCliente + "\n" +
                     "...¡Tramite Creación de cliente exitoso!...\n" +
-                    "Atendido por el empleado: " + cargoEmpleado + "\n" +
+                    "Atendido por el empleado: " + nombreEmpleadoAsesorVentas + "\n" +
                     "Fecha: " + now + "\n" +
                     "Hora: " + now + "\n" +
                     ":::::::::::::::::::::::::::::::::::::::"
 
                     );
 
+            
+
         return cliente;
     }
+    
+    
 
     //Generar tipos de cuenta
     private static tipoCuenta[] generateTipoCuentas() {
@@ -700,6 +703,9 @@ public class Main {
         // retornar falso si el código del tipo de cuenta no es igual al código que se está buscando
         return false;
     }
+
+    
+    //Choose turn
 
     //Estado cuenta Cliente
     static String ChooseEstadoCuentaCliente() {
@@ -736,11 +742,29 @@ public class Main {
 
 
 
+/*/Informacion adicional al seleccionar el tipo de cuenta Corriente
+    static void InformacionAdicionalCorriente() {
+        JOptionPane.showMessageDialog(null, "Informacion adicional al seleccionar el tipo de cuenta Corriente");
+        //Guardar nombre de la empresa
+        String nombreEmpresa = JOptionPane.showInputDialog("Ingrese el nombre de la empresa: ");
+        //Guardar NIT de la empresa
+        int nit = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el NIT de la empresa: "));
+        //Guardar numero de telefono de la empresa
+        int telefonoEmpresa = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de telefono de la empresa: "));
+        //Guardar nombre del representante legal de la empresa
+        String representanteLegal = JOptionPane.showInputDialog("Ingrese el nombre del representante legal de la empresa: ");
+        //Guardar numero de identificacion del representante legal de la empresa
+        int telefonoRepresentante = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de identificacion del representante legal de la empresa: "));
+        JOptionPane.showMessageDialog(null, "Ingrese el numero de telefono del representante legal de la empresa: ");
+        //Guardar numero de telefono del representante legal de la empresa
+        String direccionEmpresa = JOptionPane.showInputDialog("Ingrese el numero de telefono del representante legal de la empresa: ");
+
+
+    }
 
 
 
-
-
+*/
 
 
 
