@@ -1,31 +1,34 @@
 
 package bankmonteria;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
  * @author sergio
  */
-public class Cliente extends Persona{
+public class Cliente extends Persona {
   private String tipoCuenta;
   private int numeroCuenta;
   private boolean estadoCuenta;
   private double saldo;
-  
 
-  //Constructor vacio
+  // Constructor vacio
   public Cliente() {
-  }
-
-  
-  //Constructor super vacio
-  public Cliente(int i, String nombreCliente, String apellidoCliente, Date fechaNacimientoCliente, String direccionCliente, String tipoCuentaCliente, String tipoCuentaClienteDescription, int numeroCuentaCliente, boolean isEstadoCuentaCliente, double saldoInicialCliente) {
     super();
   }
 
-  //Constructor super con parametros
-  public Cliente(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion, String tipoCuenta, int numeroCuenta, boolean estadoCuenta, double saldo) {
+  // Constructor super vacio
+  // public Cliente(int i, String nombreCliente, String apellidoCliente, Date fechaNacimientoCliente,
+  //     String direccionCliente, String tipoCuentaCliente, String tipoCuentaClienteDescription, int numeroCuentaCliente,
+  //     boolean isEstadoCuentaCliente, double saldoInicialCliente) {
+  //   super();
+  // }
+
+  // Constructor super con parametros
+  public Cliente(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion,
+      String tipoCuenta, int numeroCuenta, boolean estadoCuenta, double saldo) {
     super(identificacion, nombre, apellido, fechaNacimiento, direccion);
     this.tipoCuenta = tipoCuenta;
     this.numeroCuenta = numeroCuenta;
@@ -33,9 +36,7 @@ public class Cliente extends Persona{
     this.saldo = saldo;
   }
 
-
-
-  //Getters y Setters
+  // Getters y Setters
   public String getTipoCuenta() {
     return tipoCuenta;
   }
@@ -88,41 +89,61 @@ public class Cliente extends Persona{
     this.direccion = direccion;
   }
 
-  //Actualizar datos del cliente (informacion personal)
+  // Actualizar datos del cliente (informacion personal)
   public void actualizarDatosCliente(String nombre, String apellido, Date fechaNacimiento, String direccion) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.fechaNacimiento = fechaNacimiento;
     this.direccion = direccion;
   }
-  
 
-  
 
-  //Polimorfismo
+  public String formatClient() {
+    // "Cliente: " + nombreCliente + " " + cliente.getApellido() + "\n" +
+    //             "Identificacion: " + identificacionCliente + "\n" +
+    //             "Fecha de nacimiento: " + fechaNacimientoCliente + "\n" +
+    //             "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, "
+    //             + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
+    //             "Direccion: " + direccionCliente + "\n" +
+    //             "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
+
+    String tipoCuenta = "";
+    String estadoCuenta = "";
+
+    if (this.tipoCuenta.equals("1")) {
+      tipoCuenta = "Ahorros";
+    } else if (this.tipoCuenta.equals("2")) {
+      tipoCuenta = "Corriente";
+    } else {
+      tipoCuenta = "NA";
+    }
+
+    if (this.estadoCuenta == true) {
+      estadoCuenta = "Activa";
+    } else {
+      estadoCuenta = "Inactiva";
+    }
+
+    return "Cliente: " + this.nombre + " " + this.apellido + "\n" + "Identificación: " + this.identificacion + "\n"
+        + "Fecha de nacimiento: " + this.fechaNacimiento + "\n" + "Dirección: " + this.direccion + "\n" + "Tipo de cuenta: "
+        + tipoCuenta + "\n" + "Numero de cuenta: " + this.numeroCuenta + "\n" + "Cuenta: " + estadoCuenta + "\n"
+        + "Saldo: " + this.saldo + "\n";
+  }
+
+  public static Cliente obtenerConIdentificacionCliente(int identificacion, ArrayList<Cliente> clientes) {
+      for (Cliente cliente : clientes) {
+        if (cliente.identificacion == identificacion) {
+          return cliente;
+        }
+      }
+      return null;
+    }
+
+  // Polimorfismo
   @Override
   public String toString() {
-    return "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
+    return super.toString() + "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta
+        + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
   }
-  
 
-
-  
-  
-
-
-  
-
-
-
-
-
-    
-
-
-
-
-
-
-    
 }
