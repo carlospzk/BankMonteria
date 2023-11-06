@@ -62,13 +62,12 @@ public class Main {
             opcion = Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Menú\n"
                     + "1. Crear empleado\n"
                     + "2. Crear cliente\n"
-                    + "3. Crear trámite\n"
-                    + "4. Consulta de saldo disponible\n" 
-                    + "5. Realizar consignaciones\n"
-                    + "6. Realizar retiros\n"
-                    + "7. Actualizar datos de los clientes\n"
-                    + "8. Auditoría\n"
-                    + "9. Salir\n"
+                    + "3. Consulta de saldo Disponible\n"
+                    + "4. Realizar consignaciones\n" 
+                    + "5. Realizar retiros\n"
+                    + "6. Actualizar datos de los clientes\n"
+                    + "7. Auditoria\n"
+                    + "8. Salir\n"
                     + "Ingrese una opción: "));
 
 
@@ -125,6 +124,42 @@ public class Main {
                     //Consulta de saldo disponible lo realiza el cajero y el cliente
                     JOptionPane.showMessageDialog(null, "Consulta de saldo disponible");
 
+                    //Consultar saldo con la identificacion del cliente y el numero de cuenta
+                    int identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+                    int numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+
+                    //Buscar el cliente con la identificacion ingresada
+                    Cliente clienteConsultarSaldo = null;
+                    for(Cliente clienteActual : clientes){
+                        if(clienteActual.getIdentificacion() == identificacionCliente){
+                            clienteConsultarSaldo = clienteActual;
+                        }
+                    }
+
+                    //Buscar el cliente con el numero de cuenta ingresado
+                    Cliente clienteConsultarSaldoNumeroCuenta = null;
+                    for(Cliente clienteActualNumeroCuenta : clientes){
+                        if(clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente){
+                            clienteConsultarSaldoNumeroCuenta = clienteActualNumeroCuenta;
+                        }
+                    }
+
+                    //Validar que el cliente exista
+                    boolean isClienteValido = clienteConsultarSaldo != null && clienteConsultarSaldoNumeroCuenta != null;
+
+                    // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+                    while (!isClienteValido) {
+                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
+                        identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+                        numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+                        isClienteValido = clienteConsultarSaldo != null && clienteConsultarSaldoNumeroCuenta != null;
+                    }
+
+                    //Mostrar saldo disponible del cliente
+                    JOptionPane.showMessageDialog(null, "Saldo disponible: " + clienteConsultarSaldo.getSaldo());
+
+
+
 
 
 
@@ -134,8 +169,32 @@ public class Main {
                     //Realizar consignaciones
                     JOptionPane.showMessageDialog(null, "Realizar consignaciones");
 
+                    //Select para elegir cajero y continuar con la realizaron de la consignacion
+                    String nombreEmpleadoCajeroConsignacion = "";
 
+                    for(Empleado empleadoCajeroConsignacion : empleados){
+                        if(empleadoCajeroConsignacion.getCargo().equals("2") && empleadoCajeroConsignacion.isTurno()){
+                            nombreEmpleadoCajeroConsignacion = empleadoCajeroConsignacion.getNombre();
+                        }
+                    }
 
+                    JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + nombreEmpleadoCajeroConsignacion);
+
+                    //Crear tramite
+                    Tramite tramiteConsignacion = new Tramite();
+
+                    tramiteConsignacion = createTramiteConsignacion(clientes, empleados);
+
+                    JOptionPane.showMessageDialog(null, "Tramite creado: \n" + tramiteConsignacion.toString());
+
+                    tramites.add(tramiteConsignacion);
+
+                    //Mostrar todos los Tramites creados
+                    if(tramites.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
+                    }
 
 
                     break;
@@ -144,15 +203,26 @@ public class Main {
                     //Realizar retiros (realizado por el empleado cajero)
                     JOptionPane.showMessageDialog(null, "Realizar retiros");
 
-                    //Mostrar nombres de los empleados cajeros
+                    //Select para elegir cajero y continuar con la realizaron del retiro
                     String nombreEmpleadoCajero = "";
                     for(Empleado empleadoCajero : empleados){
-                        if(empleadoCajero.getCargo().equals("2")){
+                        if(empleadoCajero.getCargo().equals("2") && empleadoCajero.isTurno()){
                             nombreEmpleadoCajero = empleadoCajero.getNombre();
                         }
                     }
 
-                    JOptionPane.showMessageDialog(null, "El empleado cajero es: " + nombreEmpleadoCajero);
+                    JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + nombreEmpleadoCajero);
+
+                    //Crear tramite
+                    Tramite tramite = new Tramite();
+
+                    tramite = createTramiteRetiro(clientes, empleados);
+
+                    JOptionPane.showMessageDialog(null, "Tramite creado: \n" + tramite.toString());
+
+                    tramites.add(tramite);
+
+                    
                     
 
 
@@ -161,8 +231,100 @@ public class Main {
                     break;
 
                 case 6:
-                //Actualizar datos de los clientes
+                    //Actualizar datos de los clientes
                     JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
+
+                    //Select para elegir el cliente
+                    String nombreClienteActualizarDatos = "";
+
+                    for(Cliente clienteActualizarDatos : clientes){
+                        if(clienteActualizarDatos.getEstadoCuenta()){
+                            nombreClienteActualizarDatos = clienteActualizarDatos.getNombre();
+                        }
+                    }
+
+                    JOptionPane.showMessageDialog(null, "El cliente es: " + nombreClienteActualizarDatos);
+
+                    //Actualizar datos del cliente
+                    Cliente clienteActualizarDatos = null;
+
+                    for(Cliente clienteActual : clientes){
+                        if(clienteActual.getEstadoCuenta()){
+                            clienteActualizarDatos = clienteActual;
+                        }
+                    }
+
+                    //Validar que el cliente exista
+                    boolean isClienteValidoActualizarDatos = clienteActualizarDatos != null;
+
+                    // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+                    while (!isClienteValidoActualizarDatos) {
+                        JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
+                        identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+                        isClienteValidoActualizarDatos = clienteActualizarDatos != null;
+                    }
+
+                    //Actualizar datos del cliente
+                    String nombreClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su nombre: ");
+                    String apellidoClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su apellido: ");
+                    String fechaNacimientoClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+                    String direccionClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su direccion: ");
+
+                    //Crear un objeto SimpleDateFormat para parsear la fecha
+                    SimpleDateFormat sdfActualizarDatos = new SimpleDateFormat("dd/MM/yyyy");
+
+                    // Parsear la fecha de nacimiento
+                    Date fechaNacimientoClienteActualizarDatos = null;
+
+                    try {
+                        fechaNacimientoClienteActualizarDatos = sdfActualizarDatos.parse(fechaNacimientoClienteActualizarDatosNuevo);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Imprimir datos del cliente
+                    JOptionPane.showMessageDialog(null, "Cliente actualizado: \n" + clienteActualizarDatos.toString());
+
+                    //Mostrar todos los Clientes creados
+                    if(clientes.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
+                    }
+
+                    //Actualizar datos del cliente
+                    clienteActualizarDatos.actualizarDatosCliente(nombreClienteActualizarDatosNuevo, apellidoClienteActualizarDatosNuevo, fechaNacimientoClienteActualizarDatos, direccionClienteActualizarDatosNuevo);
+
+                    //Imprimir datos del cliente
+                    JOptionPane.showMessageDialog(null, "Cliente actualizado: \n" + clienteActualizarDatos.toString());
+
+                    //Mostrar todos los Clientes creados
+                    if(clientes.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Clientes: \n" + clientes.toString());
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay clientes creados, por favor cree un cliente primero.");
+                    }
+
+                    //Crear tramite
+                    Tramite tramiteActualizarDatos = new Tramite();
+
+                    tramiteActualizarDatos = createTramiteActualizarDatos(clientes, empleados);
+
+                    JOptionPane.showMessageDialog(null, "Tramite creado: \n" + tramiteActualizarDatos.toString());
+
+                    tramites.add(tramiteActualizarDatos);
+
+                    //Mostrar todos los Tramites creados
+                    if(tramites.size() > 0){
+                        JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
+                    }else{
+                        JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
+                    }
+
+
+
+
                     
 
 
@@ -173,12 +335,13 @@ public class Main {
 
                     JOptionPane.showMessageDialog(null, "Auditoría");
 
-                    //Mostrar todos los Tramites creados
+                    //Mostrar todos los Tramites creados, consignaciones y retiros  
                     if(tramites.size() > 0){
                         JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
                     }else{
                         JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
                     }
+
 
 
 
@@ -730,6 +893,416 @@ public class Main {
             }
         } while(opcionEC != 0 && opcionEC != 1);
         return "";
+    }
+
+
+    //Realizar consignacion
+    static Tramite createTramiteConsignacion(ArrayList<Cliente> clientes, ArrayList<Empleado> empleados) {
+        //Crear tramite
+        Tramite tramite = new Tramite();
+
+        //Desplegar select para elegir el cliente
+        String nombreClienteConsignacion = "";
+        String apellidoClienteConsignacion = "";
+        int identificacionCliente = 0;
+        int numeroCuentaCliente = 0;
+        double valorConsignacion = 0;
+        String tipoCuenta = "";
+        for(Cliente clienteConsignacion : clientes){
+            if(clienteConsignacion.getEstadoCuenta()){
+                nombreClienteConsignacion = clienteConsignacion.getNombre();
+                apellidoClienteConsignacion = clienteConsignacion.getApellido();
+                identificacionCliente = clienteConsignacion.getIdentificacion();
+                numeroCuentaCliente = clienteConsignacion.getNumeroCuenta();
+                valorConsignacion = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a consignar: "));
+                tipoCuenta = clienteConsignacion.getTipoCuenta();
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "El cliente es: " + nombreClienteConsignacion + " " + apellidoClienteConsignacion);
+
+        //Buscar el cliente con la identificacion ingresada
+        Cliente clienteConsignacion = null;
+        for(Cliente clienteActual : clientes){
+            if(clienteActual.getIdentificacion() == identificacionCliente){
+                clienteConsignacion = clienteActual;
+            }
+        }
+
+        //Buscar el cliente con el numero de cuenta ingresado
+        Cliente clienteConsignacionNumeroCuenta = null;
+        for(Cliente clienteActualNumeroCuenta : clientes){
+            if(clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente){
+                clienteConsignacionNumeroCuenta = clienteActualNumeroCuenta;
+            }
+        }
+
+        //Validar que el cliente exista
+        boolean isClienteValido = clienteConsignacion != null && clienteConsignacionNumeroCuenta != null;
+
+        // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+        while (!isClienteValido) {
+            JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
+            identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+            isClienteValido = clienteConsignacion != null && clienteConsignacionNumeroCuenta != null;
+        }
+
+        //Validar que el valor a consignar sea mayor a 0
+        boolean isValorConsignacionValido = valorConsignacion > 0;
+
+        // si el valor a consignar no es válido, mostrar un mensaje de error y volver a pedir el valor a consignar
+        while (!isValorConsignacionValido) {
+            JOptionPane.showMessageDialog(null, "El valor a consignar debe ser mayor a 0. Por favor, ingresa un valor válido.");
+            valorConsignacion = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a consignar: "));
+            isValorConsignacionValido = valorConsignacion > 0;
+        }
+
+        //Validar que el valor a consignar sea menor o igual al saldo disponible
+        boolean isValorConsignacionValidoSaldo = valorConsignacion <= clienteConsignacion.getSaldo();
+
+        // si el valor a consignar no es válido, mostrar un mensaje de error y volver a pedir el valor a consignar
+        while (!isValorConsignacionValidoSaldo) {
+            JOptionPane.showMessageDialog(null, "El valor a consignar debe ser menor o igual al saldo disponible. Por favor, ingresa un valor válido.");
+            valorConsignacion = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a consignar: "));
+            isValorConsignacionValidoSaldo = valorConsignacion <= clienteConsignacion.getSaldo();
+        }
+
+        
+        //Buscar el empleado Cajero
+        Empleado empleadoCajero = null;
+        for(Empleado empleadoActual : empleados){
+            if(empleadoActual.getCargo().equals("2") && empleadoActual.isTurno()){
+                empleadoCajero = empleadoActual;
+            }
+        }
+
+        //Validar que el empleado Cajero exista
+        boolean isEmpleadoCajeroValido = empleadoCajero != null;
+
+        // si el empleado Cajero no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+        while (!isEmpleadoCajeroValido) {
+            JOptionPane.showMessageDialog(null, "El empleado Cajero no existe. Por favor, ingresa una identificacion válida.");
+            identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+            isEmpleadoCajeroValido = empleadoCajero != null;
+        }
+
+        return tramite;
+        
+
+
+    }
+    
+    //Realizar retiro 
+    static Tramite createTramiteRetiro(ArrayList<Cliente> clientes, ArrayList<Empleado> empleados) {
+        //Crear tramite
+        Tramite tramite = new Tramite();
+
+        //Desplegar select para elegir el cliente
+        String nombreClienteRetiro = "";
+        String apellidoClienteRetiro = "";
+        int identificacionCliente = 0;
+        int numeroCuentaCliente = 0;
+        double valorRetiro = 0;
+        String tipoCuenta = "";
+        for(Cliente clienteRetiro : clientes){
+            if(clienteRetiro.getEstadoCuenta()){
+                nombreClienteRetiro = clienteRetiro.getNombre();
+                apellidoClienteRetiro = clienteRetiro.getApellido();
+                identificacionCliente = clienteRetiro.getIdentificacion();
+                numeroCuentaCliente = clienteRetiro.getNumeroCuenta();
+                valorRetiro = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a retirar: "));
+                tipoCuenta = clienteRetiro.getTipoCuenta();
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "El cliente es: " + nombreClienteRetiro + " " + apellidoClienteRetiro);
+
+        //Buscar el cliente con la identificacion ingresada
+        Cliente clienteRetiro = null;
+        for(Cliente clienteActual : clientes){
+            if(clienteActual.getIdentificacion() == identificacionCliente){
+                clienteRetiro = clienteActual;
+            }
+        }
+
+        //Buscar el cliente con el numero de cuenta ingresado
+        Cliente clienteRetiroNumeroCuenta = null;
+        for(Cliente clienteActualNumeroCuenta : clientes){
+            if(clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente){
+                clienteRetiroNumeroCuenta = clienteActualNumeroCuenta;
+            }
+        }
+
+        //Validar que el cliente exista
+        boolean isClienteValido = clienteRetiro != null && clienteRetiroNumeroCuenta != null;
+
+        // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+        while (!isClienteValido) {
+            JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
+            identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+            isClienteValido = clienteRetiro != null && clienteRetiroNumeroCuenta != null;
+        }
+
+        //Validar que el valor a retirar sea mayor a 0
+        boolean isValorRetiroValido = valorRetiro > 0;
+
+        // si el valor a retirar no es válido, mostrar un mensaje de error y volver a pedir el valor a retirar
+        while (!isValorRetiroValido) {
+            JOptionPane.showMessageDialog(null, "El valor a retirar debe ser mayor a 0. Por favor, ingresa un valor válido.");
+            valorRetiro = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a retirar: "));
+            isValorRetiroValido = valorRetiro > 0;
+        }
+
+        //Validar que el valor a retirar sea menor o igual al saldo disponible
+        boolean isValorRetiroValidoSaldo = valorRetiro <= clienteRetiro.getSaldo();
+
+        return tramite;
+
+    }
+
+
+    //Realizar actualizar datos Cliente
+    static Tramite createTramiteActualizarDatos(ArrayList<Cliente> clientes, ArrayList<Empleado> empleados) {
+        //Crear tramite
+        Tramite tramite = new Tramite();
+
+        //Desplegar select para elegir el cliente
+        String nombreClienteActualizarDatos = "";
+        String apellidoClienteActualizarDatos = "";
+        int identificacionCliente = 0;
+        int numeroCuentaCliente = 0;
+        String tipoCuenta = "";
+        for(Cliente clienteActualizarDatos : clientes){
+            if(clienteActualizarDatos.getEstadoCuenta()){
+                nombreClienteActualizarDatos = clienteActualizarDatos.getNombre();
+                apellidoClienteActualizarDatos = clienteActualizarDatos.getApellido();
+                identificacionCliente = clienteActualizarDatos.getIdentificacion();
+                numeroCuentaCliente = clienteActualizarDatos.getNumeroCuenta();
+                tipoCuenta = clienteActualizarDatos.getTipoCuenta();
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "El cliente es: " + nombreClienteActualizarDatos + " " + apellidoClienteActualizarDatos);
+
+        //Buscar el cliente con la identificacion ingresada
+        Cliente clienteActualizarDatos = null;
+        for(Cliente clienteActual : clientes){
+            if(clienteActual.getIdentificacion() == identificacionCliente){
+                clienteActualizarDatos = clienteActual;
+            }
+        }
+
+        //Buscar el cliente con el numero de cuenta ingresado
+        Cliente clienteActualizarDatosNumeroCuenta = null;
+        for(Cliente clienteActualNumeroCuenta : clientes){
+            if(clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente){
+                clienteActualizarDatosNumeroCuenta = clienteActualNumeroCuenta;
+            }
+        }
+
+        //Validar que el cliente exista
+        boolean isClienteValido = clienteActualizarDatos != null && clienteActualizarDatosNumeroCuenta != null;
+
+        // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la identificacion del cliente
+        while (!isClienteValido) {
+            JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
+            identificacionCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
+            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
+            isClienteValido = clienteActualizarDatos != null && clienteActualizarDatosNumeroCuenta != null;
+        }
+
+        //Desplegar select para elegir el cliente
+        String nombreClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su nombre: ");
+        String apellidoClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su apellido: ");
+
+        // Pedir la fecha de nacimiento como string
+        String fechaNacimientoClienteActualizarDatosStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+
+        // Crear un objeto SimpleDateFormat para parsear la fecha
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Parsear la fecha de nacimiento
+        Date fechaNacimientoClienteActualizarDatos = null;
+
+        //Validar que la fecha de nacimiento sea válida
+        boolean isFechaNacimientoClienteActualizarDatosValida = false;
+
+        // si la fecha de nacimiento no es válida, mostrar un mensaje de error y volver a pedir la fecha de nacimiento
+        while (!isFechaNacimientoClienteActualizarDatosValida) {
+            try {
+                fechaNacimientoClienteActualizarDatos = sdf.parse(fechaNacimientoClienteActualizarDatosStr);
+                isFechaNacimientoClienteActualizarDatosValida = true;
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "La fecha de nacimiento no es válida. Por favor, ingresa una fecha de nacimiento válida.");
+                fechaNacimientoClienteActualizarDatosStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+            }
+        }
+
+        //Mostrar fecha en calendario
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaNacimientoClienteActualizarDatos);
+        //Mostrar edad en años
+        int edad = calendar.get(Calendar.YEAR);
+        //Mostrar edad en meses
+        int edadMeses = calendar.get(Calendar.MONTH);
+        //Mostrar edad en dias
+        int edadDias = calendar.get(Calendar.DAY_OF_MONTH);
+        //Mostrar edad en horas
+        int edadHoras = calendar.get(Calendar.HOUR_OF_DAY);
+        //Mostrar edad en minutos
+        int edadMinutos = calendar.get(Calendar.MINUTE);
+        //Mostrar edad en segundos
+        int edadSegundos = calendar.get(Calendar.SECOND);
+
+        //Obtener la fecha actual
+        Date now = new Date();
+
+        //Continuar con el programa si es mayor de edad, sino, pedir fecha de nacimiento
+        if (isAdult(fechaNacimientoClienteActualizarDatos, now)) {
+            JOptionPane.showMessageDialog(null, "Fecha de nacimiento: " + fechaNacimientoClienteActualizarDatos + "\nEdad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos + " minutos, " + edadSegundos + " segundos");
+        } else {
+            JOptionPane.showMessageDialog(null, "No eres mayor de edad, por favor ingresa una fecha de nacimiento válida.");
+            fechaNacimientoClienteActualizarDatosStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+            try {
+                fechaNacimientoClienteActualizarDatos = sdf.parse(fechaNacimientoClienteActualizarDatosStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String direccionClienteActualizarDatos = JOptionPane.showInputDialog("Ingrese su direccion: ");
+
+        //Desplegar select con los tipos de cuenta
+        String tipoCuentaClienteActualizarDatos = JOptionPane.showInputDialog("Ingrese el codigo de su tipo de cuenta: " +
+        "\n1. Ahorros" +
+        "\n2. Corriente", generateTipoCuentas());
+
+        //validar que el tipo de cuenta exista
+        //boolean isTipoCuentaValido = validateTipoCuentaConCode(tipoCuentaClienteActualizarDatos, tipoCuentas);
+
+        // si el tipo de cuenta no es válido, mostrar un mensaje de error y volver a pedir el código del tipo de cuenta
+        /*while (!isTipoCuentaValido) {
+            JOptionPane.showMessageDialog(null, "El código del tipo de cuenta no es válido. Por favor, ingresa un código válido.");
+            tipoCuentaClienteActualizarDatos = JOptionPane.showInputDialog("Ingrese el codigo de su tipo de cuenta: " +
+            "\n1. Ahorros" +
+            "\n2. Corriente", generateTipoCuentas());
+            isTipoCuentaValido = validateTipoCuentaConCode(tipoCuentaClienteActualizarDatos, tipoCuentas);
+        }*/
+
+        String tipoCuentaClienteActualizarDatosDescription = "";
+
+        //Recorrer los tipos de cuenta
+        /*for (int i = 0; i < tipoCuentasA.size(); i++) {
+            //Obtener el tipo de cuenta actual
+            tipoCuenta tipoCuenta = tipoCuentasA.get(i);
+
+            //Obtener el código del tipo de cuenta actual
+            String codeTipoCuenta = tipoCuenta.getCodigo();
+
+            //Comparar el código del tipo de cuenta actual con el código que se está buscando
+            if (codeTipoCuenta.equals(tipoCuentaClienteActualizarDatos)) {
+                //Obtener la descripción del tipo de cuenta actual
+                tipoCuentaClienteActualizarDatosDescription = tipoCuenta.getDescripcion();
+            }
+        }*/
+
+    //Inicializar varibles informacion adicional al seleccionar el tipo de cuenta Corriente
+    String nombreEmpresa = "";
+    int nit = 0;
+    int telefonoEmpresa = 0;
+    String nombreRepresentante = "";
+    int telefonoRepresentante = 0;
+    String direccionEmpresa = "";
+
+        //Condicion para imprimir informacion adicional al seleccionar el tipo de cuenta Corriente
+        if(tipoCuentaClienteActualizarDatos.equals("2")) {
+            JOptionPane.showMessageDialog(null, "Informacion adicional al seleccionar el tipo de cuenta Corriente");
+            //Guardar nombre de la empresa
+            nombreEmpresa = JOptionPane.showInputDialog("Ingrese el nombre de la empresa: ");
+            //Guardar NIT de la empresa
+            nit = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el NIT de la empresa: "));
+            System.out.println("NIT de la empresa" + nit);
+            //Guardar numero de telefono de la empresa
+            telefonoEmpresa = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de telefono de la empresa: "));
+            System.out.println("Numero de telefono de la empresa" + telefonoEmpresa);
+            //Guardar nombre del representante legal de la empresa
+            nombreRepresentante = JOptionPane.showInputDialog("Ingrese el nombre del representante legal de la empresa: ");
+            System.out.println("Nombre del representante legal de la empresa" + nombreRepresentante);
+            //Guardar numero de identificacion del representante legal de la empresa
+            telefonoRepresentante = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de identificacion del representante legal de la empresa: "));
+            System.out.println("Numero de identificacion del representante legal de la empresa" + telefonoRepresentante);
+            //Guardar numero de telefono del representante legal de la empresa
+            JOptionPane.showMessageDialog(null, "Ingrese el numero de telefono del representante legal de la empresa: ");
+            System.out.println("Numero de telefono del representante legal de la empresa" + telefonoRepresentante);
+            //Guardar numero de telefono del representante legal de la empresa
+            direccionEmpresa = JOptionPane.showInputDialog("Ingrese el numero de telefono del representante legal de la empresa: ");
+            System.out.println("Direccion de la empresa" + direccionEmpresa);
+        }
+
+        //Mostrar tipo de cuenta
+        JOptionPane.showMessageDialog(null, "Tipo de cuenta: " + tipoCuentaClienteActualizarDatosDescription);
+
+        //Numero de cuenta del cliente aleatorio de 5 digitos e irrepetible
+        int numeroCuentaClienteActualizarDatos = (int) (Math.random() * 90000) + 10000;
+        JOptionPane.showMessageDialog(null, "Numero de cuenta: " + numeroCuentaClienteActualizarDatos);
+
+        //Desplegar select con los estados de cuenta
+        String estadoCuentaClienteActualizarDatos = ChooseEstadoCuentaCliente();
+        boolean isEstadoCuentaClienteActualizarDatos = estadoCuentaClienteActualizarDatos.equals("Activa");
+        System.out.println("Estado de cuenta");
+        System.out.println(isEstadoCuentaClienteActualizarDatos);
+
+        //Saldo inicial del cliente
+        double saldoInicialClienteActualizarDatos = 0;
+        JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialClienteActualizarDatos);
+
+        //Imprimir datos del cliente
+
+        //Crear el objeto cliente
+        Cliente cliente = new Cliente();
+
+        System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
+        "First Bank of Spring field - Monteria\n" +
+        "Tramite: Actualizar datos Cliente\n" +
+        "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n" +
+        "Fecha de nacimiento: " + fechaNacimientoClienteActualizarDatos + "\n" +
+        "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
+        "Direccion: " + direccionClienteActualizarDatos + "\n" +
+        "Tipo de cuenta: " + tipoCuentaClienteActualizarDatosDescription + "\n" +
+        //Condicion para imprimir informacion adicional al seleccionar el tipo de cuenta Corriente
+        (tipoCuentaClienteActualizarDatos.equals("2") ? "Nombre de la empresa: " + nombreEmpresa + "\n" +
+        "NIT de la empresa: " + nit + "\n" +
+        "Numero de telefono de la empresa: " + telefonoEmpresa + "\n" +
+        "Nombre del representante legal de la empresa: " + nombreRepresentante + "\n" +
+        "Numero de identificacion del representante legal de la empresa: " + telefonoRepresentante + "\n" +
+        "Direccion de la empresa: " + direccionEmpresa + "\n" : "") +
+        "" +
+        "Numero de cuenta: " + numeroCuentaClienteActualizarDatos + "\n" +
+        "Estado de cuenta: " + estadoCuentaClienteActualizarDatos + "\n" +
+        "Saldo disponible: " + saldoInicialClienteActualizarDatos + "\n" +
+        "...¡Tramite Actualizar datos Cliente exitoso!...\n" +
+        //"Atendido por el empleado: " + nombreEmpleadoAsesorVentas + "\n" +
+        "Fecha: " + now + "\n" +
+        "Hora: " + now + "\n" +
+        ":::::::::::::::::::::::::::::::::::::::"
+
+        );
+
+
+
+        return tramite;
+    }
+
+    //Mostrar todos los tramites creados
+    static void mostrarTramites(ArrayList<Tramite> tramites) {
+        if(tramites.size() > 0){
+            JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
+        }else{
+            JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
+        }
     }
 
 

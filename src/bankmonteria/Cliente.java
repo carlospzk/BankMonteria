@@ -88,6 +88,15 @@ public class Cliente extends Persona{
     this.direccion = direccion;
   }
 
+  //Actualizar datos del cliente (informacion personal)
+  public void actualizarDatosCliente(String nombre, String apellido, Date fechaNacimiento, String direccion) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fechaNacimiento = fechaNacimiento;
+    this.direccion = direccion;
+  }
+  
+
   
 
   //Polimorfismo
