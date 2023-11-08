@@ -71,6 +71,15 @@ public class Empleado extends Persona {
     return null;
   }
 
+  public static Empleado obtenerNombreEmpleado(String nombre, ArrayList<Empleado> empleados) {
+    for (Empleado empleado : empleados) {
+      if (empleado.nombre.equals(nombre)) {
+        return empleado;
+      }
+    }
+    return null;
+  }
+
   public static Empleado obtenerAsesorConTurno(ArrayList<Empleado> empleados) {
     for (Empleado empleado : empleados) {
       if (empleado.turno == true && empleado.cargo.equals("1")) {
@@ -96,6 +105,6 @@ public class Empleado extends Persona {
 
     String turnoString = (turno) ? "En turno" : "No en turno";
 
-    return super.toString() + "cargo=" + cargoString + ", turno= " + turnoString;
+    return super.toString() + "cargo =" + cargoString + ", turno = " + turnoString;
 }
 }

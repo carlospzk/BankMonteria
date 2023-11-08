@@ -1,6 +1,7 @@
 
 package bankmonteria;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,12 +53,13 @@ public class Main {
             opcion = Integer.parseInt(javax.swing.JOptionPane.showInputDialog("Menú\n"
                     + "1. Crear empleado\n"
                     + "2. Crear cliente\n"
-                    + "3. Consulta de saldo Disponible\n"
-                    + "4. Realizar consignaciones\n"
-                    + "5. Realizar retiros\n"
-                    + "6. Actualizar datos de los clientes\n"
-                    + "7. Auditoria\n"
-                    + "8. Salir\n"
+                    + "3. Turno Empleado\n"
+                    + "4. Consulta de saldo Disponible\n"
+                    + "5. Realizar consignaciones\n"
+                    + "6. Realizar retiros\n"
+                    + "7. Actualizar datos de los clientes\n"
+                    + "8. Auditoria\n"
+                    + "9. Salir\n"
                     + "Ingrese una opción: "));
 
             switch (opcion) {
@@ -82,6 +84,8 @@ public class Main {
                     }
 
                     break;
+
+                    
                 case 2:
                     // Crear Clientes
                     JOptionPane.showMessageDialog(null, "Crear Clientes");
@@ -104,7 +108,91 @@ public class Main {
                     }
 
                     break;
+
                 case 3:
+                    // Cambiar Turno Empleado
+                    JOptionPane.showMessageDialog(null, "Turno Empleado");
+
+                    // Pedir identificacion del empleado para asignarle el turno
+
+                    String identificacionEmpleado = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
+
+                    // Buscar el empleado con la identificacion ingresada
+
+                    boolean isIdentificacionValida = validateIdentification(identificacionEmpleado);
+
+                    while (!isIdentificacionValida) {
+                        JOptionPane.showMessageDialog(null,
+                                "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
+                        identificacionEmpleado = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
+                        isIdentificacionValida = validateIdentification(identificacionEmpleado);
+                    }
+
+                    Empleado empleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificacionEmpleado), empleados);
+
+                    if (empleadoConsultar == null) {
+                        JOptionPane.showMessageDialog(null,
+                                "No hay un empleado con la identificacion ingresada. Por favor, cree un empleado.");
+                        return;
+                    }
+
+                    // Validar que el empleado exista
+
+                    boolean isEmpleadoValido = empleadoConsultar != null;
+
+                    // si el empleado no es válido, mostrar un mensaje de error y volver a pedir la
+                    // identificacion del empleado
+
+                    while (!isEmpleadoValido) {
+                        JOptionPane.showMessageDialog(null,
+                                "El empleado no existe. Por favor, ingresa una identificacion válida.");
+                        identificacionEmpleado = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
+                        isEmpleadoValido = empleadoConsultar != null;
+                    }
+
+                    // Mostrar empleado con la identificacion ingresada
+                    JOptionPane.showMessageDialog(null, "Empleado: " + empleadoConsultar.toString());
+
+                    // Desplegar select con los turnos, si se elige el mismo turno, mostrar un 
+                    // mensaje de error y volver a pedir el turno
+
+                    String turnoEmpleado = ChooseTurn();
+
+                    System.out.println(turnoEmpleado);
+
+                    boolean isTurnoEmpleado = turnoEmpleado.equals("Activo");
+
+                    System.out.println("Turno");
+
+                    System.out.println(isTurnoEmpleado);
+
+                    // Imprimir descripcion del turno
+
+                    JOptionPane.showMessageDialog(null, "Turno: " + turnoEmpleado);
+
+                    //Mostrar mensaje de error si el empleado ya tiene el turno asignado
+
+                    if (empleadoConsultar.isTurno() == isTurnoEmpleado) {
+                        JOptionPane.showMessageDialog(null,
+                                "El empleado ya tiene el turno asignado. Por favor, ingresa un turno diferente.");
+                        turnoEmpleado = ChooseTurn();
+                        isTurnoEmpleado = turnoEmpleado.equals("Activo");
+                    }
+
+                    // Asignar turno al empleado
+
+                    empleadoConsultar.setTurno(isTurnoEmpleado);
+
+                    // Mostrar empleado con el turno asignado
+
+                    JOptionPane.showMessageDialog(null, "Empleado: " + empleadoConsultar.toString());
+
+
+                    
+
+                    break;
+
+                case 4:
                     // Consulta de saldo disponible lo realiza el cajero y el cliente
                     JOptionPane.showMessageDialog(null, "Consulta de saldo disponible");
 
@@ -150,7 +238,7 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Saldo disponible: " + clienteConsultarSaldo.getSaldo());
 
                     break;
-                case 4:
+                case 5:
                     // Realizar consignaciones
                     JOptionPane.showMessageDialog(null, "Realizar consignaciones");
 
@@ -184,7 +272,7 @@ public class Main {
 
                     break;
 
-                case 5:
+                case 6:
                     // Realizar retiros (realizado por el empleado cajero)
                     JOptionPane.showMessageDialog(null, "Realizar retiros");
 
@@ -209,7 +297,7 @@ public class Main {
 
                     break;
 
-                case 6:
+                case 7:
                     // Actualizar datos de los clientes
                     JOptionPane.showMessageDialog(null, "Actualizar datos de los clientes");
 
@@ -313,7 +401,7 @@ public class Main {
 
                     break;
 
-                case 7:
+                case 8:
                     // Auditoría
 
                     JOptionPane.showMessageDialog(null, "Auditoría");
@@ -328,7 +416,7 @@ public class Main {
 
                     break;
 
-                case 8:
+                case 9:
                     // Salir
                     JOptionPane.showMessageDialog(null, "Salir");
 
@@ -1043,6 +1131,8 @@ public class Main {
             return null;
         }
 
+        
+
         // Buscar cliente con la identificacion o numero de cuenta
 
         JOptionPane.showMessageDialog(null,
@@ -1134,7 +1224,9 @@ public class Main {
             return null;
         }
 
-        JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + empleadoConsultar2.toString());
+        Empleado nombreEmpleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
+
+        JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + nombreEmpleadoConsultar.toString());
 
         String identificationCliente = JOptionPane.showInputDialog("Ingrese el numero de identificacion del cliente: ");
 
@@ -1159,90 +1251,82 @@ public class Main {
             return null;
         }
 
+        //Obtener nombre del cliente
+
+        JOptionPane.showMessageDialog(null,
+                "El cliente es " + clienteConsultar.getNombre() + " " + clienteConsultar.getApellido());
+
         //Obtener fecha actual
         Date now = new Date();
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
                 "Tramite: Retiro de Dinero\n" + 
-                "Atendido por el empleado: " + empleadoConsultar2.toString() + "\n" +
+                "Atendido por el empleado: " + nombreEmpleadoConsultar.toString() + "\n" +
                 "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" + 
                 "Tipo de cuenta: " + clienteConsultar.getTipoCuenta() + "\n" +
                 "Estado cuenta: " + clienteConsultar.getEstadoCuenta() + "\n" +
                 "Dinero disponible: " + clienteConsultar.getSaldo() + "\n" +
                 "Fecha: " + now + "\n" +
                 "Hora: " + now + "\n" +
-                ":::::::::::::::::::::::::::::::::::::::"
-        );
+                ":::::::::::::::::::::::::::::::::::::::");
 
-        
+        //Obtener valor a retirar
+        String valorRetiroStr = JOptionPane.showInputDialog("Ingrese el valor a retirar: ");
 
-
-
-        // Desplegar select para elegir el cliente
-        String nombreClienteRetiro = "";
-        String apellidoClienteRetiro = "";
-        int identificacionCliente = 0;
-        int numeroCuentaCliente = 0;
-        double valorRetiro = 0;
-        String tipoCuenta = "";
-        for (Cliente clienteRetiro : clientes) {
-            if (clienteRetiro.getEstadoCuenta()) {
-                nombreClienteRetiro = clienteRetiro.getNombre();
-                apellidoClienteRetiro = clienteRetiro.getApellido();
-                identificacionCliente = clienteRetiro.getIdentificacion();
-                numeroCuentaCliente = clienteRetiro.getNumeroCuenta();
-                valorRetiro = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a retirar: "));
-                tipoCuenta = clienteRetiro.getTipoCuenta();
-            }
+        // Validar que el valor a retirar sea un número
+        try {
+            Double.parseDouble(valorRetiroStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El valor a retirar no es válido. Por favor, ingresa un valor válido.");
+            valorRetiroStr = JOptionPane.showInputDialog("Ingrese el valor a retirar: ");
         }
 
-        JOptionPane.showMessageDialog(null, "El cliente es: " + nombreClienteRetiro + " " + apellidoClienteRetiro);
-
-        // Buscar el cliente con la identificacion ingresada
-        Cliente clienteRetiro = null;
-        for (Cliente clienteActual : clientes) {
-            if (clienteActual.getIdentificacion() == identificacionCliente) {
-                clienteRetiro = clienteActual;
-            }
-        }
-
-        // Buscar el cliente con el numero de cuenta ingresado
-        Cliente clienteRetiroNumeroCuenta = null;
-        for (Cliente clienteActualNumeroCuenta : clientes) {
-            if (clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente) {
-                clienteRetiroNumeroCuenta = clienteActualNumeroCuenta;
-            }
-        }
-
-        // Validar que el cliente exista
-        boolean isClienteValido = clienteRetiro != null && clienteRetiroNumeroCuenta != null;
-
-        // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la
-        // identificacion del cliente
-        while (!isClienteValido) {
-            JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
-            identificacionCliente = Integer
-                    .parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
-            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
-            isClienteValido = clienteRetiro != null && clienteRetiroNumeroCuenta != null;
-        }
+        // Convertir el valor a retirar a double
+        double valorRetiro = Double.parseDouble(valorRetiroStr);
 
         // Validar que el valor a retirar sea mayor a 0
         boolean isValorRetiroValido = valorRetiro > 0;
 
-        // si el valor a retirar no es válido, mostrar un mensaje de error y volver a
-        // pedir el valor a retirar
-        while (!isValorRetiroValido) {
+        if (!isValorRetiroValido) {
             JOptionPane.showMessageDialog(null,
                     "El valor a retirar debe ser mayor a 0. Por favor, ingresa un valor válido.");
-            valorRetiro = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor a retirar: "));
+            valorRetiroStr = JOptionPane.showInputDialog("Ingrese el valor a retirar: ");
+            valorRetiro = Double.parseDouble(valorRetiroStr);
             isValorRetiroValido = valorRetiro > 0;
         }
 
-        // Validar que el valor a retirar sea menor o igual al saldo disponible
-        boolean isValorRetiroValidoSaldo = valorRetiro <= clienteRetiro.getSaldo();
+        // Validar que el valor a retirar sea menor al saldo del cliente
+        boolean isValorRetiroMenorSaldo = valorRetiro <= clienteConsultar.getSaldo();
 
+        if (!isValorRetiroMenorSaldo) {
+            JOptionPane.showMessageDialog(null,
+                    "El valor a retirar debe ser menor o igual al saldo del cliente. Por favor, ingresa un valor válido.");
+            valorRetiroStr = JOptionPane.showInputDialog("Ingrese el valor a retirar: ");
+            valorRetiro = Double.parseDouble(valorRetiroStr);
+            isValorRetiroMenorSaldo = valorRetiro <= clienteConsultar.getSaldo();
+        }
+
+        //Actualizar saldo
+        clienteConsultar.setSaldo(clienteConsultar.getSaldo() - valorRetiro);
+
+        System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
+                "First Bank of Spring field - Monteria\n" +
+                "Tramite: Retiro de Dinero\n" + 
+                "Atendido por el empleado: " + nombreEmpleadoConsultar.toString() + "\n" +
+                "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" + 
+                "Identificacion: " + clienteConsultar.getIdentificacion() + "\n" +
+                "Tipo de cuenta: " + clienteConsultar.getTipoCuenta() + "\n" +
+                "Estado cuenta: " + clienteConsultar.getEstadoCuenta() + "\n" +
+                "Dinero disponible: " + clienteConsultar.getSaldo() + "\n"
+                + "\n" +
+                "Fecha: " + now + "\n" +
+                "Hora: " + now + "\n" +
+                ":::::::::::::::::::::::::::::::::::::::"
+        );
+
+
+    
         return tramite;
 
     }
@@ -1530,14 +1614,49 @@ public class Main {
         return tramite;
     }
 
-    // Mostrar todos los tramites creados
-    static void mostrarTramites(ArrayList<Tramite> tramites) {
-        if (tramites.size() > 0) {
-            JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
-        } else {
-            JOptionPane.showMessageDialog(null, "No hay tramites creados, por favor cree un tramite primero.");
+    // Mostrar informe de todas las transacciones realizadas (Consignaciones y Retiros)
+
+    static Tramite auditoriaTramite(ArrayList<Tramite> tramites){
+        // Crear tramite
+        Tramite tramite = new Tramite();
+
+        //Consultar consignaciones totales realizadas
+        int consignacionesTotales = 0;
+
+        for (Tramite tramiteActual : tramites) {
+            if (tramiteActual.getTipoTramite().equals("Consignacion")) {
+                consignacionesTotales++;
+            }
         }
+
+        //Consultar retiros totales realizados
+
+        int retirosTotales = 0;
+
+        for (Tramite tramiteActual : tramites) {
+            if (tramiteActual.getTipoTramite().equals("Retiro")) {
+                retirosTotales++;
+            }
+        }
+
+        //Imprimir informe de todas las transacciones realizadas (Consignaciones y Retiros)
+
+        System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
+                "First Bank of Spring field - Monteria\n" +
+                "Tramite: Auditoria\n" +
+                "Consignaciones totales realizadas: " + consignacionesTotales + "\n" +
+                "Retiros totales realizados: " + retirosTotales + "\n" +
+                "...¡Tramite Auditoria exitoso!...\n" +
+                ":::::::::::::::::::::::::::::::::::::::"
+        );
+
+
+
+
+        return null;
+
     }
+    
 
     /*
      * /Informacion adicional al seleccionar el tipo de cuenta Corriente

@@ -139,11 +139,20 @@ public class Cliente extends Persona {
       return null;
     }
 
+  public static Cliente obtenerNombreCliente(String nombre, ArrayList<Cliente> clientes) {
+    for (Cliente cliente : clientes) {
+      if (cliente.nombre.equals(nombre)) {
+        return cliente;
+      }
+    }
+    return null;
+  }
+
   // Polimorfismo
   @Override
   public String toString() {
-    return super.toString() + "Cliente{" + "tipoCuenta=" + tipoCuenta + ", numeroCuenta=" + numeroCuenta
-        + ", estadoCuenta=" + estadoCuenta + ", saldo=" + saldo + '}';
+    return super.toString() + "Cliente {" + "tipoCuenta = " + tipoCuenta + ", numeroCuenta = " + numeroCuenta
+        + ", estadoCuenta = " + estadoCuenta + ", saldo = " + saldo + '}';
   }
 
 }
