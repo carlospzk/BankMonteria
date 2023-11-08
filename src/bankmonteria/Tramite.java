@@ -68,10 +68,31 @@ public class Tramite {
         this.horaTramite = horaTramite;
     }
 
+    // Tramite consignacion
+
+    public void consignacion(int valorTramite) {
+        this.valorTramite = valorTramite;
+    }
+
+
+    // Tramite retiro
+
+    public void retiro(int valorTramite) {
+        this.valorTramite = valorTramite;
+    }
+
+    // Valor Tramite
+
+    public void valorTramite(int valorTramite) {
+        this.valorTramite = valorTramite;
+    }
+
+
+
     //Polimorfismo
     @Override
     public String toString() {
-        return "Tramite{" + "idTramite=" + idTramite + ", tipoTramite=" + tipoTramite + ", valorTramite=" + valorTramite + ", fechaTramite=" + fechaTramite + ", horaTramite=" + horaTramite + '}';
+        return "Tramite{" + "idTramite =" + idTramite + ", tipoTramite =" + tipoTramite + ", valorTramite=" + valorTramite + ", fechaTramite=" + fechaTramite + ", horaTramite=" + horaTramite + '}';
     }
 
 

@@ -71,10 +71,11 @@ public class Empleado extends Persona {
     return null;
   }
 
-  public static Empleado obtenerNombreEmpleado(String nombre, ArrayList<Empleado> empleados) {
+  public static Empleado obtenerNombreEmpleado(String nombre, String apellido, ArrayList<Empleado> empleados) {
     for (Empleado empleado : empleados) {
-      if (empleado.nombre.equals(nombre)) {
+      if (empleado.nombre.equals(nombre) && empleado.apellido.equals(apellido)) {
         return empleado;
+      
       }
     }
     return null;
