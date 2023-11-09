@@ -10,7 +10,7 @@ import java.util.Date;
 public class Tramite {
     private int idTramite;
     private String tipoTramite;
-    private int valorTramite;
+    private double valorTramite;
     private Date fechaTramite;
     private Date horaTramite;
 
@@ -19,7 +19,7 @@ public class Tramite {
     }
 
     //Constructor con parámetros
-    public Tramite(int idTramite, String tipoTramite, int valorTramite, Date fechaTramite, Date horaTramite) {
+    public Tramite(int idTramite, String tipoTramite, double valorTramite, Date fechaTramite, Date horaTramite) {
         this.idTramite = idTramite;
         this.tipoTramite = tipoTramite;
         this.valorTramite = valorTramite;
@@ -36,7 +36,7 @@ public class Tramite {
         return tipoTramite;
     }
 
-    public int getValorTramite() {
+    public double getValorTramite() {
         return valorTramite;
     }
 
@@ -56,8 +56,8 @@ public class Tramite {
         this.tipoTramite = tipoTramite;
     }
 
-    public void setValorTramite(int valorTramite) {
-        this.valorTramite = valorTramite;
+    public void setValorTramite(double valorRetiro) {
+        this.valorTramite = valorRetiro;
     }
 
     public void setFechaTramite(Date fechaTramite) {

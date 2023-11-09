@@ -428,7 +428,7 @@ public class Main {
 
                     tramite = auditoriaTramite(tramites);
 
-                    tramite = valorTramite(tramites);
+                    tramite = idTramite(tramites);
 
                     // Mostrar todos los Tramites creados, consignaciones y retiros
                     if (tramites.size() > 0) {
@@ -438,36 +438,6 @@ public class Main {
                                 "No hay tramites creados, por favor cree un tramite primero.");
                     }
 
-                    // Imprimir todos los tramites realizados consignacion y retiro
-                    for (Tramite tramiteActual : tramites) {
-                        if (tramiteActual.getTipoTramite().equals("Consignacion")) {
-                            JOptionPane.showMessageDialog(null, "Consignacion: \n" + tramiteActual.toString());
-                        } else if (tramiteActual.getTipoTramite().equals("Retiro")) {
-                            JOptionPane.showMessageDialog(null, "Retiro: \n" + tramiteActual.toString());
-                        }
-                    }
-
-                    //  AuditoriaTramite
-                    JOptionPane.showMessageDialog(null, "AuditoriaTramite");
-
-                    // Mostrar todos los Tramites creados, consignaciones y retiros
-
-                    if (tramites.size() > 0) {
-                        JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "No hay tramites creados, por favor cree un tramite primero.");
-                    }
-
-                    // Imprimir todos los tramites realizados consignacion y retiro
-
-                    for (Tramite tramiteActual : tramites) {
-                        if (tramiteActual.getTipoTramite().equals("Consignacion")) {
-                            JOptionPane.showMessageDialog(null, "Consignacion: \n" + tramiteActual.toString());
-                        } else if (tramiteActual.getTipoTramite().equals("Retiro")) {
-                            JOptionPane.showMessageDialog(null, "Retiro: \n" + tramiteActual.toString());
-                        }
-                    }
 
                     // Retornar al menu principal
 
@@ -1249,6 +1219,17 @@ public class Main {
         // Actualizar saldo del cliente
         clienteConsultar.setSaldo(saldoActualizado);
 
+        // Valor tramite consignacion
+
+        double valorTramite = 0;
+
+        //Obtener valor tramite consignacion
+
+        valorTramite = valorConsignacion;
+
+        // Guardar valor tramite consignacion
+
+
         //Obtener la fecha actual
         Date now = new Date();
 
@@ -1403,6 +1384,10 @@ public class Main {
 
         valorTramite = valorRetiro;
 
+        // Guardar valor tramite
+
+        tramite.setValorTramite(valorRetiro);
+
         
 
 
@@ -1422,8 +1407,6 @@ public class Main {
                 "Hora: " + now + "\n" +
                 ":::::::::::::::::::::::::::::::::::::::"
         );
-
-        // Asignar id al tramite aleatorio de 5 digitos e irrepetible
     
         return tramite;
 
@@ -1710,6 +1693,8 @@ public class Main {
 
         );
 
+        
+
         return tramite;
     }
 
@@ -1719,30 +1704,19 @@ public class Main {
         // Crear tramite
         Tramite tramite = new Tramite();
 
-        // Numero de cuenta del cliente aleatorio de 5 digitos e irrepetible
+        // Numero de tramite de 5 digitos e irrepetible
         int idTramite = (int) (Math.random() * 90000) + 10000;
-        JOptionPane.showMessageDialog(null, "Numero de cuenta: " + idTramite);
+        JOptionPane.showMessageDialog(null, "ID Tramite: " + idTramite);
+
+        // Guardar id tramite
+
+        tramite.setIdTramite(idTramite);
 
         return null;
 
     }
 
     // Mostrar valor Tramite de consignacion y retiro
-
-    static Tramite valorTramite(ArrayList<Tramite> tramites) {
-        // Crear tramite
-        Tramite tramite = new Tramite();
-
-        
-        
-
-
-
-        return null;
-
-    }
-
-
 
     // Mostrar informe de todas las transacciones realizadas (Consignaciones y Retiros)
 
@@ -1769,12 +1743,38 @@ public class Main {
             }
         }
 
+        // Consultar ArrayList Empleado y Cliente, mostrar identificacion
+
+        
+
+
+
+
+
+        
+
+
+        
+
+
+
         //Imprimir informe de todas las transacciones realizadas (Consignaciones y Retiros)
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
-                "Tramite: Auditoria\n" +
+                "Tramite: Auditoria de Consignaciones\n" +
+                "ID Tramite: " + tramite.getIdTramite() + "\n" +
+                "ID Empleado -> ID Cliente -> Cuenta -> Valor\n" +
                 "Consignaciones totales realizadas: " + consignacionesTotales + "\n" +
+                "Dinero consignado: " + tramite.getValorTramite() + "\n" +
+                ":::::::::::::::::::::::::::::::::::::::\n" +
+                "\n" +
+                ":::::::::::::::::::::::::::::::::::::::\n" +
+                "First Bank of Spring field - Monteria\n" +
+                "Tramite: Auditoria de Retiros\n" +
+                "ID Tramite: " + tramite.getIdTramite() + "\n" +
+                "ID Empleado -> ID Cliente -> Cuenta -> Valor\n" +
+                
                 "Retiros totales realizados: " + retirosTotales + "\n" +
                 "...¡Tramite Auditoria exitoso!...\n" +
                 ":::::::::::::::::::::::::::::::::::::::"
