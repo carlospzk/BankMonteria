@@ -105,6 +105,7 @@ public class Empleado extends Persona {
     return null;
   }
   
+  
   @Override
   public String toString() {
 

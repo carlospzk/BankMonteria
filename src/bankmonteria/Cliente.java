@@ -160,7 +160,7 @@ public class Cliente extends Persona {
   // Polimorfismo
   @Override
   public String toString() {
-    return super.toString() + "Cliente {" + "tipoCuenta = " + tipoCuenta + ", numeroCuenta = " + numeroCuenta
+    return super.toString() + "Cliente { " + "tipoCuenta = " + tipoCuenta + ", numeroCuenta = " + numeroCuenta
         + ", estadoCuenta = " + estadoCuenta + ", saldo = " + saldo + '}';
   }
 

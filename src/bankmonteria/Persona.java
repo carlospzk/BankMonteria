@@ -73,7 +73,7 @@ public class Persona {
     //Polimorfismo
     @Override
     public String toString() {
-        return "Persona{" + "identificacion=" + identificacion + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento=" + fechaNacimiento + ", direccion=" + direccion + '}';
+        return "Persona { " + "identificacion = " + identificacion + ", nombre = " + nombre + ", apellido = " + apellido + ", fechaNacimiento = " + fechaNacimiento + ", direccion = " + direccion + '}';
     }
     
 
