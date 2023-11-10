@@ -1,7 +1,10 @@
 
 package bankmonteria;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -11,20 +14,25 @@ public class Tramite {
     private int idTramite;
     private String tipoTramite;
     private double valorTramite;
-    private Date fechaTramite;
-    private Date horaTramite;
+    private LocalDate fechaTramite;
+    private LocalTime horaTramite;
+    private Cliente cliente;
+    private Empleado empleado;
 
     //Constructor vacío
     public Tramite() {
     }
 
     //Constructor con parámetros
-    public Tramite(int idTramite, String tipoTramite, double valorTramite, Date fechaTramite, Date horaTramite) {
-        this.idTramite = idTramite;
+    public Tramite(String tipoTramite, double valorTramite, Cliente cliente, Empleado empleado) {
+        // generate number random for idTramite
+        this.idTramite = (int) (Math.random() * 10000 + 1);
         this.tipoTramite = tipoTramite;
         this.valorTramite = valorTramite;
-        this.fechaTramite = fechaTramite;
-        this.horaTramite = horaTramite;
+        this.fechaTramite = LocalDate.now();
+        this.horaTramite = LocalTime.now();
+        this.cliente = cliente;
+        this.empleado = empleado;
     }
 
     //Métodos getters y setters
@@ -40,11 +48,11 @@ public class Tramite {
         return valorTramite;
     }
 
-    public Date getFechaTramite() {
+    public LocalDate getFechaTramite() {
         return fechaTramite;
     }
 
-    public Date getHoraTramite() {
+    public LocalTime getHoraTramite() {
         return horaTramite;
     }
 
@@ -60,11 +68,11 @@ public class Tramite {
         this.valorTramite = valorRetiro;
     }
 
-    public void setFechaTramite(Date fechaTramite) {
+    public void setFechaTramite(LocalDate fechaTramite) {
         this.fechaTramite = fechaTramite;
     }
 
-    public void setHoraTramite(Date horaTramite) {
+    public void setHoraTramite(LocalTime horaTramite) {
         this.horaTramite = horaTramite;
     }
 
@@ -87,6 +95,24 @@ public class Tramite {
         this.valorTramite = valorTramite;
     }
 
+    public static ArrayList<Tramite> obtenerConTipoTramite(String tipo, ArrayList<Tramite> tramites) {
+
+        ArrayList<Tramite> tramitesEncontrados = new ArrayList<>();
+
+        for (Tramite tramite : tramites) {
+            if (tramite.tipoTramite.equals(tipo)) {
+                tramitesEncontrados.add(tramite);
+            }
+        }
+
+        return tramitesEncontrados;
+    }
+
+    public String formatTramite() {
+
+        return empleado.getIdentificacion()+ " -> " + cliente.getIdentificacion() + " -> " + cliente.getNumeroCuenta() + " -> " + valorTramite;
+    }
+
 
 
     //Polimorfismo
@@ -94,13 +120,4 @@ public class Tramite {
     public String toString() {
         return "Tramite{" + "idTramite =" + idTramite + ", tipoTramite =" + tipoTramite + ", valorTramite=" + valorTramite + ", fechaTramite=" + fechaTramite + ", horaTramite=" + horaTramite + '}';
     }
-
-
-
-
-
-
-
-    
-    
 }

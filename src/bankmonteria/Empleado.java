@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Empleado extends Persona {
   private boolean turno;
-  private String cargo;
+  private Cargo cargo;
 
   // Constructor super vacio
   public Empleado() {
@@ -19,7 +19,7 @@ public class Empleado extends Persona {
 
   // Constructor super con parametros
   public Empleado(int identificacion, String nombre, String apellido, Date fechaNacimiento, String direccion,
-      String cargo, String cargoEmpleadoDescription, boolean turno) {
+      Cargo cargo, boolean turno) {
     super(identificacion, nombre, apellido, fechaNacimiento, direccion);
     this.cargo = cargo;
     this.turno = turno;
@@ -27,10 +27,10 @@ public class Empleado extends Persona {
 
   // Getters y Setters
   public String getCargo() {
-    return cargo;
+    return cargo.getCode();
   }
 
-  public void setCargo(String cargo) {
+  public void setCargo(Cargo cargo) {
     this.cargo = cargo;
   }
 
@@ -54,6 +54,10 @@ public class Empleado extends Persona {
     this.apellido = apellido;
   }
 
+  public boolean getTurno() {
+    return turno;
+  }
+
   public void setFechaNacimiento(Date fechaNacimiento) {
     this.fechaNacimiento = fechaNacimiento;
   }
@@ -64,7 +68,7 @@ public class Empleado extends Persona {
 
   public static Empleado obtenerConIdentificacionEmpleado(int identificacion, ArrayList<Empleado> empleados) {
     for (Empleado empleado : empleados) {
-      if (empleado.identificacion == identificacion) {
+      if (empleado.getIdentificacion() == identificacion) {
         return empleado;
       }
     }
@@ -73,7 +77,7 @@ public class Empleado extends Persona {
 
   public static Empleado obtenerNombreEmpleado(String nombre, String apellido, ArrayList<Empleado> empleados) {
     for (Empleado empleado : empleados) {
-      if (empleado.nombre.equals(nombre) && empleado.apellido.equals(apellido)) {
+      if (empleado.getNombre().equals(nombre) && empleado.getApellido().equals(apellido)) {
         return empleado;
       
       }
@@ -81,9 +85,20 @@ public class Empleado extends Persona {
     return null;
   }
 
+  public static Empleado obtenerCajeroConTurno(ArrayList<Empleado> empleados) {
+    for (Empleado empleado : empleados) {
+      if (empleado.getTurno() == true && empleado.cargo.getCode().equals("2")) {
+        return empleado;
+      }
+    }
+    return null;
+  }
+
+
+
   public static Empleado obtenerAsesorConTurno(ArrayList<Empleado> empleados) {
     for (Empleado empleado : empleados) {
-      if (empleado.turno == true && empleado.cargo.equals("1")) {
+      if (empleado.getTurno() == true && empleado.cargo.getCode().equals("1")) {
         return empleado;
       }
     }
@@ -93,19 +108,9 @@ public class Empleado extends Persona {
   @Override
   public String toString() {
 
-    String cargoString = "";
-
-    if (cargo.equals("1")) {
-      cargoString = "Asesor";
-    } else if (cargo.equals("2")) {
-      cargoString = "Cajero";
-    } else {
-      cargoString = "NA";
-    }
-
 
     String turnoString = (turno) ? "En turno" : "No en turno";
 
-    return super.toString() + "cargo =" + cargoString + ", turno = " + turnoString;
+    return super.toString() + "cargo =" + cargo.getDescription() + ", turno = " + turnoString;
 }
 }

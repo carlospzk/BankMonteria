@@ -5,11 +5,11 @@ package bankmonteria;
  *
  * @author sergio
  */
-public class tipoCuenta {
+public class TipoCuenta {
   private String codigo;
   private String descripcion;
 
-  public tipoCuenta(String codigo, String descripcion) {
+  public TipoCuenta(String codigo, String descripcion) {
     this.codigo = codigo;
     this.descripcion = descripcion;
   }

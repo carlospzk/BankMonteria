@@ -20,32 +20,14 @@ public class Main {
      * @throws ParseException
      */
     private static ArrayList<Empleado> empleados = new ArrayList<>();
+    private static ArrayList<TipoCuenta> tipoCuentas = new ArrayList<>();
+    private static ArrayList<Cliente> clientes = new ArrayList<>();
+    private static ArrayList<Tramite> tramites = new ArrayList<>();
+    private static ArrayList<Cargo> cargos = new ArrayList<>();
 
     public static void main(String[] args) throws ParseException {
 
-        // ArrayList Empleado
-        // ArrayList Cliente
-        // ArrayList Tramite
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        ArrayList<Tramite> tramites = new ArrayList<>();
-        ArrayList<Cargo> cargos = new ArrayList<>();
-        ArrayList<tipoCuenta> tipoCuentas = new ArrayList<>();
-
-        // Crear cargos
-        Cargo[] cargosArray = generateCargos();
-
-        // Agregar cargos al arraylist
-        for (int i = 0; i < cargosArray.length; i++) {
-            cargos.add(cargosArray[i]);
-        }
-
-        // Crear tipos de cuenta
-        tipoCuenta[] tipoCuentasArray = generateTipoCuentas();
-
-        // Agregar tipos de cuenta al arraylist
-        for (int i = 0; i < tipoCuentasArray.length; i++) {
-            tipoCuentas.add(tipoCuentasArray[i]);
-        }
+        seed();
 
         int opcion;
 
@@ -85,7 +67,6 @@ public class Main {
 
                     break;
 
-                    
                 case 2:
                     // Crear Clientes
                     JOptionPane.showMessageDialog(null, "Crear Clientes");
@@ -115,7 +96,8 @@ public class Main {
 
                     // Pedir identificacion del empleado para asignarle el turno
 
-                    String identificacionEmpleado = JOptionPane.showInputDialog("Ingrese su numero de identificacion: ");
+                    String identificacionEmpleado = JOptionPane
+                            .showInputDialog("Ingrese su numero de identificacion: ");
 
                     // Buscar el empleado con la identificacion ingresada
 
@@ -128,7 +110,8 @@ public class Main {
                         isIdentificacionValida = validateIdentification(identificacionEmpleado);
                     }
 
-                    Empleado empleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificacionEmpleado), empleados);
+                    Empleado empleadoConsultar = Empleado
+                            .obtenerConIdentificacionEmpleado(Integer.parseInt(identificacionEmpleado), empleados);
 
                     if (empleadoConsultar == null) {
                         JOptionPane.showMessageDialog(null,
@@ -153,7 +136,7 @@ public class Main {
                     // Mostrar empleado con la identificacion ingresada
                     JOptionPane.showMessageDialog(null, "Empleado: " + empleadoConsultar.toString());
 
-                    // Desplegar select con los turnos, si se elige el mismo turno, mostrar un 
+                    // Desplegar select con los turnos, si se elige el mismo turno, mostrar un
                     // mensaje de error y volver a pedir el turno
 
                     String turnoEmpleado = ChooseTurn();
@@ -162,15 +145,11 @@ public class Main {
 
                     boolean isTurnoEmpleado = turnoEmpleado.equals("Activo");
 
-                    System.out.println("Turno");
-
-                    System.out.println(isTurnoEmpleado);
-
-                    // Imprimir descripcion del turno
+                    // Imprimir descripción del turno
 
                     JOptionPane.showMessageDialog(null, "Turno: " + turnoEmpleado);
 
-                    //Mostrar mensaje de error si el empleado ya tiene el turno asignado
+                    // Mostrar mensaje de error si el empleado ya tiene el turno asignado
 
                     if (empleadoConsultar.isTurno() == isTurnoEmpleado) {
                         JOptionPane.showMessageDialog(null,
@@ -186,9 +165,6 @@ public class Main {
                     // Mostrar empleado con el turno asignado
 
                     JOptionPane.showMessageDialog(null, "Empleado: " + empleadoConsultar.toString());
-
-
-                    
 
                     break;
 
@@ -246,12 +222,14 @@ public class Main {
                     // String nombreEmpleadoCajeroConsignacion = "";
 
                     // for (Empleado empleadoCajeroConsignacion : empleados) {
-                    //     if (empleadoCajeroConsignacion.getCargo().equals("2") && empleadoCajeroConsignacion.isTurno()) {
-                    //         nombreEmpleadoCajeroConsignacion = empleadoCajeroConsignacion.getNombre();
-                    //     }
+                    // if (empleadoCajeroConsignacion.getCargo().equals("2") &&
+                    // empleadoCajeroConsignacion.isTurno()) {
+                    // nombreEmpleadoCajeroConsignacion = empleadoCajeroConsignacion.getNombre();
+                    // }
                     // }
 
-                    // JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + nombreEmpleadoCajeroConsignacion);
+                    // JOptionPane.showMessageDialog(null, "El empleado Cajero es: " +
+                    // nombreEmpleadoCajeroConsignacion);
 
                     // Crear tramite
                     Tramite tramiteConsignacion = new Tramite();
@@ -295,10 +273,10 @@ public class Main {
 
                     tramites.add(tramite);
 
-                    //Agregar id Tramite al azar que no se repita
+                    // Agregar id Tramite al azar que no se repita
                     int idTramite = (int) (Math.random() * 90000) + 10000;
 
-                    //Tipo de tramite retiro
+                    // Tipo de tramite retiro
                     String tipoTramite = "Retiro";
 
                     // Mostrar todos los Tramites creados
@@ -308,8 +286,6 @@ public class Main {
                         JOptionPane.showMessageDialog(null,
                                 "No hay tramites creados, por favor cree un tramite primero.");
                     }
-
-
 
                     break;
 
@@ -417,43 +393,31 @@ public class Main {
 
                     break;
 
-                    
-
-
-
                 case 8:
                     // Auditoría
 
                     JOptionPane.showMessageDialog(null, "Auditoría");
 
-                    tramite = auditoriaTramite(tramites);
-
-                    tramite = idTramite(tramites);
+                    auditoriaTramite(tramites);
 
                     // Mostrar todos los Tramites creados, consignaciones y retiros
-                    if (tramites.size() > 0) {
-                        JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "No hay tramites creados, por favor cree un tramite primero.");
-                    }
-
-
-                    // Retornar al menu principal
-
-
+                    // if (tramites.size() > 0) {
+                    //     JOptionPane.showMessageDialog(null, "Tramites: \n" + tramites.toString());
+                    // } else {
+                    //     JOptionPane.showMessageDialog(null,
+                    //             "No hay tramites creados, por favor cree un tramite primero.");
+                    // }
 
                     break;
 
                 case 9:
                     // Cerrar menu
 
-                    JOptionPane.showMessageDialog(null, "Saliendo del sistema");
+                    JOptionPane.showMessageDialog(null, "Saliendo del programa");
 
                     JOptionPane.showMessageDialog(null, "Gracias por usar el sistema");
 
                     System.exit(0);
-                    
 
                     break;
 
@@ -464,7 +428,7 @@ public class Main {
                     break;
             }
 
-        } while (opcion != 8);
+        } while (opcion != 9);
     }
 
     // Crear Empleado
@@ -481,7 +445,8 @@ public class Main {
         }
 
         // Buscar el empleado con la identificacion ingresada
-        Empleado empleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificacionEmpleado), empleados);
+        Empleado empleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificacionEmpleado),
+                empleados);
 
         if (empleadoConsultar != null) {
             JOptionPane.showMessageDialog(null,
@@ -548,75 +513,53 @@ public class Main {
         String direccionEmpleado = JOptionPane.showInputDialog("Ingrese su dirección: ");
 
         // Desplegar select con los cargos
-        String cargoEmpleado = JOptionPane.showInputDialog("Ingrese el código de su cargo: " +
+        String cargoEmpleadoStr = JOptionPane.showInputDialog("Ingrese el código de su cargo: " +
                 "\n1. Asesor de ventas" +
-                "\n2. Cajero", generateCargos());
+                "\n2. Cajero");
 
         // validar que el cargo exista
-        boolean isCargoValido = validateCargoConCode(cargoEmpleado, cargos);
+        boolean isCargoValido = validateCargoConCode(cargoEmpleadoStr, cargos);
 
         // si el cargo no es válido, mostrar un mensaje de error y volver a pedir el
         // código del cargo
         while (!isCargoValido) {
             JOptionPane.showMessageDialog(null,
                     "El código del cargo no es válido. Por favor, ingresa un código válido.");
-            cargoEmpleado = JOptionPane.showInputDialog("Ingrese el código de su cargo: " +
+            cargoEmpleadoStr = JOptionPane.showInputDialog("Ingrese el código de su cargo: " +
                     "\n1. Asesor de ventas" +
-                    "\n2. Cajero", generateCargos());
-            isCargoValido = validateCargoConCode(cargoEmpleado, cargos);
+                    "\n2. Cajero");
+            isCargoValido = validateCargoConCode(cargoEmpleadoStr, cargos);
         }
 
-        String cargoEmpleadoDescription = "";
+        Cargo cargoEmpleado = null;
 
         // Recorrer los cargos
         for (int i = 0; i < cargos.size(); i++) {
             // Obtener el cargo actual
-            Cargo cargo = cargos.get(i);
+            if (cargos.get(i).getCode().equals(cargoEmpleado)) {
+                cargoEmpleado = cargos.get(i);
 
-            // Obtener el código del cargo actual
-            String codeCargo = cargo.getCode();
-
-            // Comparar el código del cargo actual con el código que se está buscando
-            if (codeCargo.equals(cargoEmpleado)) {
-                // Obtener la descripción del cargo actual
-                cargoEmpleadoDescription = cargo.getDescription();
+                break;
             }
         }
 
         // Imprimir descripcion del cargo
-        JOptionPane.showMessageDialog(null, "Cargo: " + cargoEmpleadoDescription);
+        JOptionPane.showMessageDialog(null, "Cargo: " + cargoEmpleado.getDescription());
 
         // Desplegar select con los turnos
         String turnoEmpleado = ChooseTurn();
 
-        System.out.println(turnoEmpleado);
-
         boolean isTurnoEmpleado = turnoEmpleado.equals("Activo");
 
-        System.out.println("Turno");
-
-        System.out.println(isTurnoEmpleado);
 
         // Imprimir descripcion del turno
         JOptionPane.showMessageDialog(null, "Turno: " + turnoEmpleado);
 
-        // isAsesorVentas es true si el empleado es Asesor de Ventas y está en turno
-        boolean isAsesorVentas = cargoEmpleado.equals("1") && isTurnoEmpleado;
-
-        System.out.println("Asesor de ventas");
-
-        System.out.println(isAsesorVentas);
-
-        // isCajero es true si el empleado es Cajero y está en turno
-        boolean isCajero = cargoEmpleado.equals("2") && isTurnoEmpleado;
-
-        System.out.println("Cajero");
-
-        System.out.println(isCajero);
+        JOptionPane.showMessageDialog(null, "Cargo" + cargoEmpleado.getDescription());
 
         // Crear el objeto empleado
         Empleado empleado = new Empleado(Integer.parseInt(identificacionEmpleado), nombreEmpleado, apellidoEmpleado,
-                fechaNacimientoEmpleado, direccionEmpleado, cargoEmpleado, cargoEmpleadoDescription, isTurnoEmpleado);
+                fechaNacimientoEmpleado, direccionEmpleado, cargoEmpleado, isTurnoEmpleado);
 
         return empleado;
 
@@ -686,6 +629,34 @@ public class Main {
         return cargos;
     }
 
+    private static Cliente[] generateClientes() {
+        Cliente[] clientes = {
+                new Cliente(1234567890, "Cliente 1", "Apellido 1", new Date(), "Dirección 1", "1",
+                        (int) (Math.random() * 90000) + 10000, true, 1000000),
+                new Cliente(1234567891, "Cliente 2", "Apellido 2", new Date(), "Dirección 2", "2",
+                        (int) (Math.random() * 90000) + 10000, true, 2000000),
+                new Cliente(1234567892, "Cliente 3", "Apellido 3", new Date(), "Dirección 3", "1",
+                        (int) (Math.random() * 90000) + 10000, true, 3000000),
+                new Cliente(1234567893, "Cliente 4", "Apellido 4", new Date(), "Dirección 4", "2",
+                        (int) (Math.random() * 90000) + 10000, true, 4000000),
+        };
+
+        return clientes;
+    }
+
+    private static Empleado[] generateEmpleados(Cargo[] cargos) {
+        Empleado[] empleados = {
+                new Empleado(1234567899, "Empleado 1", "Apellido 1", new Date(), "Dirección 1", cargos[0],
+                        true),
+                new Empleado(1234567898, "Empleado 2", "Apellido 2", new Date(), "Dirección 2", cargos[1], true),
+                new Empleado(1234567897, "Empleado 3", "Apellido 3", new Date(), "Dirección 3", cargos[0],
+                        true),
+                new Empleado(1234567896, "Empleado 4", "Apellido 4", new Date(), "Dirección 4", cargos[1], true),
+        };
+
+        return empleados;
+    }
+
     public static boolean validateCargoConCode(String code, ArrayList<Cargo> cargos) {
         // Obtener todos los cargos de la clase Cargo
         // recorrer los cargos
@@ -737,23 +708,24 @@ public class Main {
     }
 
     // Crear cliente
-    static Cliente createCliente(ArrayList<tipoCuenta> tipoCuentas) {
+    static Cliente createCliente(ArrayList<TipoCuenta> tipoCuentas) {
         // Crear clientes
 
         // Verificar que exista un empleado Asesor de Ventas en turno
         // boolean isAsesorVentas = false;
         // for (Empleado empleado : empleados) {
-        //     if (empleado.getCargo().equals("1") && empleado.isTurno()) {
-        //         isAsesorVentas = true;
-        //     }
+        // if (empleado.getCargo().equals("1") && empleado.isTurno()) {
+        // isAsesorVentas = true;
+        // }
         // }
 
         // // Desplegar select para elegir el empleado Asesor de Ventas
         // String nombreEmpleadoAsesorVentas = "";
         // for (Empleado empleadoAsesorVentas : empleados) {
-        //     if (empleadoAsesorVentas.getCargo().equals("1") && empleadoAsesorVentas.isTurno()) {
-        //         nombreEmpleadoAsesorVentas = empleadoAsesorVentas.getNombre();
-        //     }
+        // if (empleadoAsesorVentas.getCargo().equals("1") &&
+        // empleadoAsesorVentas.isTurno()) {
+        // nombreEmpleadoAsesorVentas = empleadoAsesorVentas.getNombre();
+        // }
         // }
         String identificationEmpleado = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
 
@@ -768,13 +740,14 @@ public class Main {
             isIdentificacionValida = validateIdentification(identificationEmpleado);
         }
 
-        Empleado empleadoConsultar2 = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
+        Empleado empleadoConsultar2 = Empleado
+                .obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
 
-        //Obtener nombre empleado consultado
+        // Obtener nombre y apellido empleado consultado
         String obtenerNombreEmpleado = "";
 
         if (empleadoConsultar2 != null) {
-        obtenerNombreEmpleado = empleadoConsultar2.getNombre();
+            obtenerNombreEmpleado = empleadoConsultar2.getNombre() + " " + empleadoConsultar2.getApellido();
         }
 
         if (empleadoConsultar2 == null) {
@@ -800,7 +773,7 @@ public class Main {
         // Crear Clientes
         String identificacionCliente = JOptionPane.showInputDialog("Ingrese el numero identificacion del cliente: ");
 
-        //Validar identificacion del cliente 
+        // Validar identificacion del cliente
         boolean isIdentificacionClienteValida = validateIdentification(identificacionCliente);
 
         while (!isIdentificacionClienteValida) {
@@ -814,7 +787,8 @@ public class Main {
         String apellidoCliente = JOptionPane.showInputDialog("Ingrese el apellido del cliente: ");
 
         // Pedir la fecha de nacimiento como string
-        String fechaNacimientoClienteStr = JOptionPane.showInputDialog("Ingrese la fecha de nacimiento del cliente en formato (dd/MM/yyyy): ");
+        String fechaNacimientoClienteStr = JOptionPane
+                .showInputDialog("Ingrese la fecha de nacimiento del cliente en formato (dd/MM/yyyy): ");
 
         // Crear un objeto SimpleDateFormat para parsear la fecha
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -869,7 +843,7 @@ public class Main {
         // Desplegar select con los tipos de cuenta
         String tipoCuentaCliente = JOptionPane.showInputDialog("Ingrese el codigo del tipo de cuenta del cliente: " +
                 "\n1. Ahorros" +
-                "\n2. Corriente", generateTipoCuentas());
+                "\n2. Corriente");
 
         // validar que el tipo de cuenta exista
         boolean isTipoCuentaValido = validateTipoCuentaConCode(tipoCuentaCliente, tipoCuentas);
@@ -890,7 +864,7 @@ public class Main {
         // Recorrer los tipos de cuenta
         for (int i = 0; i < tipoCuentas.size(); i++) {
             // Obtener el tipo de cuenta actual
-            tipoCuenta tipoCuenta = tipoCuentas.get(i);
+            TipoCuenta tipoCuenta = tipoCuentas.get(i);
 
             // Obtener el código del tipo de cuenta actual
             String codeTipoCuenta = tipoCuenta.getCodigo();
@@ -959,7 +933,7 @@ public class Main {
         System.out.println(isEstadoCuentaCliente);
 
         // Saldo inicial del cliente
-        double saldoInicialCliente = 0;
+        int saldoInicialCliente = 0;
         JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialCliente);
 
         // Imprimir datos del cliente
@@ -970,12 +944,13 @@ public class Main {
 
         try {
             cliente = new Cliente(Integer.parseInt(identificacionCliente), nombreCliente, apellidoCliente,
-                fechaNacimientoCliente, direccionCliente, tipoCuentaCliente,
-                numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
+                    fechaNacimientoCliente, direccionCliente, tipoCuentaCliente,
+                    numeroCuentaCliente, isEstadoCuentaCliente, saldoInicialCliente);
 
             System.out.println("Cliente creado: " + cliente.toString());
         } catch (NumberFormatException e) {
-            // Manejo de excepción en caso de que identificacionCliente no sea un número válido
+            // Manejo de excepción en caso de que identificacionCliente no sea un número
+            // válido
             e.printStackTrace(); // Imprime la traza de la pila para depuración
         } catch (Exception e) {
             // Otras excepciones generales
@@ -984,34 +959,38 @@ public class Main {
         }
 
         // System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
-        //         "First Bank of Spring field - Monteria\n" +
-        //         "Tramite: Creacion Cliente\n" +
-        //         "Cliente: " + nombreCliente + " " + cliente.getApellido() + "\n" +
-        //         "Identificacion: " + identificacionCliente + "\n" +
-        //         "Fecha de nacimiento: " + fechaNacimientoCliente + "\n" +
-        //         "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, "
-        //         + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
-        //         "Direccion: " + direccionCliente + "\n" +
-        //         "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
-        //         // Condicion para imprimir informacion adicional al seleccionar el tipo de
-        //         // cuenta Corriente
-        //         (tipoCuentaCliente.equals("2") ? "Nombre de la empresa: " + nombreEmpresa + "\n" +
-        //                 "NIT de la empresa: " + nit + "\n" +
-        //                 "Numero de telefono de la empresa: " + telefonoEmpresa + "\n" +
-        //                 "Nombre del representante legal de la empresa: " + nombreRepresentante + "\n" +
-        //                 "Numero de identificacion del representante legal de la empresa: " + telefonoRepresentante
-        //                 + "\n" +
-        //                 "Direccion de la empresa: " + direccionEmpresa + "\n" : "")
-        //         +
-        //         "" +
-        //         "Numero de cuenta: " + numeroCuentaCliente + "\n" +
-        //         "Estado de cuenta: " + estadoCuentaCliente + "\n" +
-        //         "Saldo disponible: " + saldoInicialCliente + "\n" +
-        //         "...¡Tramite Creación de cliente exitoso!...\n" +
-        //         "Atendido por el empleado: " + empleadoConsultar2.toString() + "\n" +
-        //         "Fecha: " + now + "\n" +
-        //         "Hora: " + now + "\n" +
-        //         ":::::::::::::::::::::::::::::::::::::::"
+        // "First Bank of Spring field - Monteria\n" +
+        // "Tramite: Creacion Cliente\n" +
+        // "Cliente: " + nombreCliente + " " + cliente.getApellido() + "\n" +
+        // "Identificacion: " + identificacionCliente + "\n" +
+        // "Fecha de nacimiento: " + fechaNacimientoCliente + "\n" +
+        // "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " +
+        // edadHoras + " horas, "
+        // + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
+        // "Direccion: " + direccionCliente + "\n" +
+        // "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
+        // // Condicion para imprimir informacion adicional al seleccionar el tipo de
+        // // cuenta Corriente
+        // (tipoCuentaCliente.equals("2") ? "Nombre de la empresa: " + nombreEmpresa +
+        // "\n" +
+        // "NIT de la empresa: " + nit + "\n" +
+        // "Numero de telefono de la empresa: " + telefonoEmpresa + "\n" +
+        // "Nombre del representante legal de la empresa: " + nombreRepresentante + "\n"
+        // +
+        // "Numero de identificacion del representante legal de la empresa: " +
+        // telefonoRepresentante
+        // + "\n" +
+        // "Direccion de la empresa: " + direccionEmpresa + "\n" : "")
+        // +
+        // "" +
+        // "Numero de cuenta: " + numeroCuentaCliente + "\n" +
+        // "Estado de cuenta: " + estadoCuentaCliente + "\n" +
+        // "Saldo disponible: " + saldoInicialCliente + "\n" +
+        // "...¡Tramite Creación de cliente exitoso!...\n" +
+        // "Atendido por el empleado: " + empleadoConsultar2.toString() + "\n" +
+        // "Fecha: " + now + "\n" +
+        // "Hora: " + now + "\n" +
+        // ":::::::::::::::::::::::::::::::::::::::"
         // );
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
@@ -1022,30 +1001,27 @@ public class Main {
                 "Atendido por el empleado: " + obtenerNombreEmpleado.toString() + "\n" +
                 "Fecha: " + now + "\n" +
                 "Hora: " + now + "\n" +
-                ":::::::::::::::::::::::::::::::::::::::"
-        );
-
-
+                ":::::::::::::::::::::::::::::::::::::::");
 
         return cliente;
     }
 
     // Generar tipos de cuenta
-    private static tipoCuenta[] generateTipoCuentas() {
-        tipoCuenta[] tipoCuentas = {
-                new tipoCuenta("1", "Ahorros"),
-                new tipoCuenta("2", "Corriente"),
+    private static TipoCuenta[] generateTipoCuentas() {
+        TipoCuenta[] tipoCuentas = {
+                new TipoCuenta("1", "Ahorros"),
+                new TipoCuenta("2", "Corriente"),
         };
 
         return tipoCuentas;
     }
 
-    public static boolean validateTipoCuentaConCode(String codigo, ArrayList<tipoCuenta> tipoCuentas) {
+    public static boolean validateTipoCuentaConCode(String codigo, ArrayList<TipoCuenta> tipoCuentas) {
         // Obtener todos los tipos de cuenta de la clase tipoCuenta
         // recorrer los tipos de cuenta
         for (int i = 0; i < tipoCuentas.size(); i++) {
             // obtener el tipo de cuenta actual
-            tipoCuenta tipoCuenta = tipoCuentas.get(i);
+            TipoCuenta tipoCuenta = tipoCuentas.get(i);
 
             // obtener el código del tipo de cuenta actual
             String codigoTipoCuenta = tipoCuenta.getCodigo();
@@ -1092,99 +1068,138 @@ public class Main {
         return "";
     }
 
+    static void seed() {
+        Cargo[] cargosArray = generateCargos();
+        Cliente[] clientesArray = generateClientes();
+        TipoCuenta[] tipoCuentasArray = generateTipoCuentas();
+        Empleado[] empleadosArray = generateEmpleados(cargosArray);
+
+
+        for (int i = 0; i < empleadosArray.length; i++) {
+            System.out.println(empleadosArray[i].toString());
+            empleados.add(empleadosArray[i]);
+        }
+
+        for (int i = 0; i < clientesArray.length; i++) {
+            System.out.println(clientesArray[i].toString());
+            clientes.add(clientesArray[i]);
+        }
+
+        // Agregar cargos al arraylist
+        for (int i = 0; i < cargosArray.length; i++) {
+            cargos.add(cargosArray[i]);
+        }
+
+
+
+        for (int i = 0; i < tipoCuentasArray.length; i++) {
+            tipoCuentas.add(tipoCuentasArray[i]);
+        }
+    }
+
     // Realizar consignacion
     static Tramite createTramiteConsignacion(ArrayList<Cliente> clientes, ArrayList<Empleado> empleados) {
         // Crear tramite
-        Tramite tramite = new Tramite();
-
-        // Tipo tramite Consignacion
-        tramite.setTipoTramite("Consignacion");
-
-        String identificationEmpleado = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
 
         // Buscar el empleado con la identificacion ingresada
 
-        boolean isIdentificacionValida = validateIdentification(identificationEmpleado);
+        boolean isValidEmpleado = false;
 
-        while (!isIdentificacionValida) {
-            JOptionPane.showMessageDialog(null,
-                    "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
-            identificationEmpleado = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
-            isIdentificacionValida = validateIdentification(identificationEmpleado);
+        Empleado empleadoConsultar = null;
+
+        while (!isValidEmpleado) {
+
+            String identificationEmpleado = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
+            boolean validIdentification = validateIdentification(identificationEmpleado);
+
+            if (!validIdentification) {
+                JOptionPane.showMessageDialog(null,
+                        "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
+                isValidEmpleado = false;
+            } else {
+                Empleado empleadoConsultar2 = Empleado
+                        .obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
+
+                if (empleadoConsultar2 != null) {
+                    empleadoConsultar = empleadoConsultar2;
+
+                    isValidEmpleado = true;
+                }
+
+                if (empleadoConsultar2 == null) {
+                    JOptionPane.showMessageDialog(null,
+                            "No hay un empleado con la identificacion ingresada. Por favor, cree un empleado.");
+
+                    isValidEmpleado = false;
+                } else if (!empleadoConsultar2.getCargo().equals("2")) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "El empleado no es Cajero. Por favor, cree un empleado Cajero.");
+                    isValidEmpleado = false;
+
+                } else if (!empleadoConsultar2.isTurno()) {
+                    JOptionPane.showMessageDialog(null,
+                            "El empleado Cajero no está en turno. Por favor, asigne el turno al empleado Asesor de Ventas.");
+                    isValidEmpleado = false;
+                }
+            }
         }
-
-        Empleado empleadoConsultar2 = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
-
-        //Obtener nombre empleado consultado
-        String obtenerNombreEmpleado = "";
-
-        if (empleadoConsultar2 != null) {
-        obtenerNombreEmpleado = empleadoConsultar2.getNombre();
-        }
-
-        if (empleadoConsultar2 == null) {
-            JOptionPane.showMessageDialog(null,
-                    "No hay un empleado con la identificacion ingresada. Por favor, cree un empleado.");
-            return null;
-        }
-
-        if (!empleadoConsultar2.getCargo().equals("2")) {
-            JOptionPane.showMessageDialog(null,
-                    "El empleado no es Cajero. Por favor, cree un empleado Cajero.");
-            return null;
-        }
-
-        if (!empleadoConsultar2.isTurno()) {
-            JOptionPane.showMessageDialog(null,
-                    "El empleado Asesor de Ventas no está en turno. Por favor, asigne el turno al empleado Asesor de Ventas.");
-            return null;
-        }
-
-
-        String identificationCliente = JOptionPane.showInputDialog("Ingrese el numero de identificacion del cliente: ");
+        // Obtener nombre empleado consultado
 
         // Buscar el empleado con la identificacion ingresada
 
-        boolean isIdentificacionValida2 = validateIdentification(identificationEmpleado);
+        boolean isValidCliente = false;
 
-        while (!isIdentificacionValida2) {
-            JOptionPane.showMessageDialog(null,
-                    "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
-            identificationCliente = JOptionPane.showInputDialog("(Cliente) Ingrese su numero de identificacion: ");
-            isIdentificacionValida2 = validateIdentification(identificationCliente);
-        } 
+        Cliente clienteConsultar = null;
 
-        Cliente clienteConsultar = Cliente.obtenerConIdentificacionCliente(Integer.parseInt(identificationCliente), clientes);
+        while (!isValidCliente) {
+            String identificationCliente = JOptionPane.showInputDialog("(Cliente) Ingrese su numero de identificacion: ");
+            System.out.println(identificationCliente);
+            boolean validIdentification = validateIdentification(identificationCliente);
 
-        if (clienteConsultar == null) {
-            JOptionPane.showMessageDialog(null,
-                    "No hay un cliente con la identificacion ingresada. Por favor, cree un cliente.");
-            return null;
+            if (!validIdentification) {
+                JOptionPane.showMessageDialog(null,
+                        "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
+                isValidCliente = false;
+            } else {
+
+                Cliente getCliente = Cliente.obtenerConIdentificacionCliente(
+                        Integer.parseInt(identificationCliente),
+                        clientes);
+
+                if (getCliente == null) {
+                    JOptionPane.showMessageDialog(null,
+                            "No hay un cliente con la identificacion ingresada. Por favor, cree un cliente.");
+                    isValidCliente = false;
+                } else {
+
+                    clienteConsultar = getCliente;
+
+                    isValidCliente = true;
+                    
+                    if (clienteConsultar.getEstadoCuenta() == false) {
+                        JOptionPane.showMessageDialog(null,
+                        "El cliente no tiene una cuenta activa. Por favor, cree una cuenta activa.");
+                        isValidCliente = false;
+                    }
+                    
+                    if (clienteConsultar.getEstadoCuenta() == false) {
+                        JOptionPane.showMessageDialog(null,
+                        "El cliente no tiene una cuenta activa. Por favor, actualizar su estado de cuenta.");
+                        isValidCliente = false;
+                    }
+                }
+            }
+
+            // Buscar si existe cuenta cliente con la identificacion ingresada
+
         }
 
-        //Buscar si existe cuenta cliente con la identificacion ingresada
+        // Mostrar informacion del cliente
 
-        if (clienteConsultar.getEstadoCuenta() == false) {
-            JOptionPane.showMessageDialog(null,
-                    "El cliente no tiene una cuenta activa. Por favor, cree una cuenta activa.");
-            return null;
-        }
+        System.out.println(":::::::::::::::::::::::::::::::::::::::");
 
-        //Mostrar informacion del cliente
-
-        System.out.println(":::::::::::::::::::::::::::::::::::::::" );
-
-
-
-        if (clienteConsultar.getEstadoCuenta() == false) {
-            JOptionPane.showMessageDialog(null,
-                    "El cliente no tiene una cuenta activa. Por favor, cree una cuenta activa.");
-            return null;
-        }
-
-        
-
-        // Buscar cliente con la identificacion o numero de cuenta
+        // Buscar cliente con la identificacion o numero de cuenta4
 
         JOptionPane.showMessageDialog(null,
                 "El cliente es " + clienteConsultar.getNombre() + " " + clienteConsultar.getApellido());
@@ -1195,7 +1210,8 @@ public class Main {
         try {
             Double.parseDouble(valorConsignacionStr);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "El valor a consignar no es válido. Por favor, ingresa un valor válido.");
+            JOptionPane.showMessageDialog(null,
+                    "El valor a consignar no es válido. Por favor, ingresa un valor válido.");
             valorConsignacionStr = JOptionPane.showInputDialog("Ingrese el valor a consignar: ");
         }
 
@@ -1213,36 +1229,38 @@ public class Main {
             isValorConsignacionValido = valorConsignacion > 0;
         }
 
-        //Actualizar saldo
+        // Actualizar saldo
         double saldoActualizado = clienteConsultar.getSaldo() + valorConsignacion;
 
         // Actualizar saldo del cliente
         clienteConsultar.setSaldo(saldoActualizado);
 
-        // Valor tramite consignacion
+        // Obtener valor tramite consignacion
 
-        double valorTramite = 0;
-
-        //Obtener valor tramite consignacion
-
-        valorTramite = valorConsignacion;
+        double valorTramite = valorConsignacion;
 
         // Guardar valor tramite consignacion
 
+        // Obtener la fecha actual
 
-        //Obtener la fecha actual
-        Date now = new Date();
+        Tramite tramite = new Tramite(
+                "Consignacion",
+                valorTramite,
+                clienteConsultar,
+                empleadoConsultar
+        );
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
-                "Tramite: Consignacion" + "\n" + 
+                "Tramite: Consignacion" + "\n" +
                 "Cliente: " + clienteConsultar.getNombre() + " " + clienteConsultar.getApellido() + "\n" +
                 "...¡Tramite consignación exitoso!...\n" +
-                "Atendido por el empleado: " + obtenerNombreEmpleado.toString() + "\n" +
-                "Fecha: " + now + "\n" +
-                "Hora: " + now + "\n" +
+                "Atendido por el empleado: " + 
+                empleadoConsultar.getNombre() + " " + empleadoConsultar.getApellido() + "\n" +
+                "Fecha: " + tramite.getFechaTramite() + "\n" +
+                "Hora: " + tramite.getHoraTramite() + "\n" +
                 ":::::::::::::::::::::::::::::::::::::::"
-        );
+                );
 
         return tramite;
 
@@ -1255,7 +1273,6 @@ public class Main {
 
         // Tipo tramite Retiro
         tramite.setTipoTramite("Retiro");
-
 
         String identificationEmpleado = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
 
@@ -1270,7 +1287,8 @@ public class Main {
             isIdentificacionValida = validateIdentification(identificationEmpleado);
         }
 
-        Empleado empleadoConsultar2 = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
+        Empleado empleadoConsultar2 = Empleado
+                .obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
 
         if (empleadoConsultar2 == null) {
             JOptionPane.showMessageDialog(null,
@@ -1290,7 +1308,8 @@ public class Main {
             return null;
         }
 
-        Empleado nombreEmpleadoConsultar = Empleado.obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
+        Empleado nombreEmpleadoConsultar = Empleado
+                .obtenerConIdentificacionEmpleado(Integer.parseInt(identificationEmpleado), empleados);
 
         JOptionPane.showMessageDialog(null, "El empleado Cajero es: " + nombreEmpleadoConsultar.toString());
 
@@ -1305,11 +1324,10 @@ public class Main {
                     "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
             identificationCliente = JOptionPane.showInputDialog("(Empleado) Ingrese su numero de identificacion: ");
             isIdentificacionValida2 = validateIdentification(identificationCliente);
-        } 
+        }
 
-
-
-        Cliente clienteConsultar = Cliente.obtenerConIdentificacionCliente(Integer.parseInt(identificationCliente), clientes);
+        Cliente clienteConsultar = Cliente.obtenerConIdentificacionCliente(Integer.parseInt(identificationCliente),
+                clientes);
 
         if (clienteConsultar == null) {
             JOptionPane.showMessageDialog(null,
@@ -1317,18 +1335,17 @@ public class Main {
             return null;
         }
 
-
         JOptionPane.showMessageDialog(null,
                 "El cliente es " + clienteConsultar.getNombre() + " " + clienteConsultar.getApellido());
 
-        //Obtener fecha actual
+        // Obtener fecha actual
         Date now = new Date();
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
-                "Tramite: Retiro de Dinero\n" + 
+                "Tramite: Retiro de Dinero\n" +
                 "Atendido por el empleado: " + nombreEmpleadoConsultar.toString() + "\n" +
-                "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" + 
+                "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" +
                 "Tipo de cuenta: " + clienteConsultar.getTipoCuenta() + "\n" +
                 "Estado cuenta: " + clienteConsultar.getEstadoCuenta() + "\n" +
                 "Dinero disponible: " + clienteConsultar.getSaldo() + "\n" +
@@ -1336,7 +1353,7 @@ public class Main {
                 "Hora: " + now + "\n" +
                 ":::::::::::::::::::::::::::::::::::::::");
 
-        //Obtener valor a retirar
+        // Obtener valor a retirar
         String valorRetiroStr = JOptionPane.showInputDialog("Ingrese el valor a retirar: ");
 
         // Validar que el valor a retirar sea un número
@@ -1372,15 +1389,15 @@ public class Main {
             isValorRetiroMenorSaldo = valorRetiro <= clienteConsultar.getSaldo();
         }
 
-        //Actualizar saldo del cliente
-        
+        // Actualizar saldo del cliente
+
         clienteConsultar.setSaldo(clienteConsultar.getSaldo() - valorRetiro);
 
-        //Valor tramite retirado
+        // Valor tramite retirado
 
         double valorTramite = 0;
 
-        //Obtener valor tramite
+        // Obtener valor tramite
 
         valorTramite = valorRetiro;
 
@@ -1388,16 +1405,11 @@ public class Main {
 
         tramite.setValorTramite(valorRetiro);
 
-        
-
-
-        
-
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
-                "Tramite: Retiro de Dinero\n" + 
+                "Tramite: Retiro de Dinero\n" +
                 "Atendido por el empleado: " + nombreEmpleadoConsultar.toString() + "\n" +
-                "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" + 
+                "Cliente: " + clienteConsultar + " " + clienteConsultar + "\n" +
                 "Identificacion: " + clienteConsultar.getIdentificacion() + "\n" +
                 "Tipo de cuenta: " + clienteConsultar.getTipoCuenta() + "\n" +
                 "Estado cuenta: " + clienteConsultar.getEstadoCuenta() + "\n" +
@@ -1405,9 +1417,8 @@ public class Main {
                 + "\n" +
                 "Fecha: " + now + "\n" +
                 "Hora: " + now + "\n" +
-                ":::::::::::::::::::::::::::::::::::::::"
-        );
-    
+                ":::::::::::::::::::::::::::::::::::::::");
+
         return tramite;
 
     }
@@ -1434,88 +1445,61 @@ public class Main {
         // Crear tramite
         Tramite tramite = new Tramite();
 
-        // Desplegar select para elegir el cliente
-        String nombreClienteActualizarDatos = "";
-        String apellidoClienteActualizarDatos = "";
-        int identificacionCliente = 0;
-        int numeroCuentaCliente = 0;
-        String tipoCuenta = "";
-        for (Cliente clienteActualizarDatos : clientes) {
-            if (clienteActualizarDatos.getEstadoCuenta()) {
-                nombreClienteActualizarDatos = clienteActualizarDatos.getNombre();
-                apellidoClienteActualizarDatos = clienteActualizarDatos.getApellido();
-                identificacionCliente = clienteActualizarDatos.getIdentificacion();
-                numeroCuentaCliente = clienteActualizarDatos.getNumeroCuenta();
-                tipoCuenta = clienteActualizarDatos.getTipoCuenta();
-            }
+        // Obtener identificacion cliente a actualizar
+
+        String identificationCliente = JOptionPane.showInputDialog("Ingrese el numero de identificacion del cliente: ");
+
+        // Buscar el empleado con la identificacion ingresada
+
+        boolean isIdentificacionValida2 = validateIdentification(identificationCliente);
+
+        while (!isIdentificacionValida2) {
+            JOptionPane.showMessageDialog(null,
+                    "La identificacion no es válida. Por favor, ingresa una identificacion válida.");
+            identificationCliente = JOptionPane.showInputDialog("(Cliente) Ingrese su numero de identificacion: ");
+            isIdentificacionValida2 = validateIdentification(identificationCliente);
         }
 
-        JOptionPane.showMessageDialog(null,
-                "El cliente es: " + nombreClienteActualizarDatos + " " + apellidoClienteActualizarDatos);
+        Cliente clienteConsultar = Cliente.obtenerConIdentificacionCliente(Integer.parseInt(identificationCliente),
+                clientes);
 
-        // Buscar el cliente con la identificacion ingresada
-        Cliente clienteActualizarDatos = null;
-        for (Cliente clienteActual : clientes) {
-            if (clienteActual.getIdentificacion() == identificacionCliente) {
-                clienteActualizarDatos = clienteActual;
-            }
+        if (clienteConsultar == null) {
+            JOptionPane.showMessageDialog(null,
+                    "No hay un cliente con la identificacion ingresada. Por favor, cree un cliente.");
+            return null;
         }
 
-        // Buscar el cliente con el numero de cuenta ingresado
-        Cliente clienteActualizarDatosNumeroCuenta = null;
-        for (Cliente clienteActualNumeroCuenta : clientes) {
-            if (clienteActualNumeroCuenta.getNumeroCuenta() == numeroCuentaCliente) {
-                clienteActualizarDatosNumeroCuenta = clienteActualNumeroCuenta;
-            }
-        }
+        // Actualizar nombre, apellido, fecha de nacimiento, direccion, tipo de cuenta
 
-        // Validar que el cliente exista
-        boolean isClienteValido = clienteActualizarDatos != null && clienteActualizarDatosNumeroCuenta != null;
+        String nombreCliente = JOptionPane.showInputDialog("Ingrese el nombre del cliente: ");
 
-        // si el cliente no es válido, mostrar un mensaje de error y volver a pedir la
-        // identificacion del cliente
-        while (!isClienteValido) {
-            JOptionPane.showMessageDialog(null, "El cliente no existe. Por favor, ingresa una identificacion válida.");
-            identificacionCliente = Integer
-                    .parseInt(JOptionPane.showInputDialog("Ingrese su numero de identificacion: "));
-            numeroCuentaCliente = Integer.parseInt(JOptionPane.showInputDialog("Ingrese su numero de cuenta: "));
-            isClienteValido = clienteActualizarDatos != null && clienteActualizarDatosNumeroCuenta != null;
-        }
-
-        // Desplegar select para elegir el cliente
-        String nombreClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su nombre: ");
-        String apellidoClienteActualizarDatosNuevo = JOptionPane.showInputDialog("Ingrese su apellido: ");
+        String apellidoCliente = JOptionPane.showInputDialog("Ingrese el apellido del cliente: ");
 
         // Pedir la fecha de nacimiento como string
-        String fechaNacimientoClienteActualizarDatosStr = JOptionPane
-                .showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+
+        String fechaNacimientoClienteStr = JOptionPane
+                .showInputDialog("Ingrese la fecha de nacimiento del cliente en formato (dd/MM/yyyy): ");
 
         // Crear un objeto SimpleDateFormat para parsear la fecha
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         // Parsear la fecha de nacimiento
-        Date fechaNacimientoClienteActualizarDatos = null;
 
-        // Validar que la fecha de nacimiento sea válida
-        boolean isFechaNacimientoClienteActualizarDatosValida = false;
+        Date fechaNacimientoCliente = null;
 
-        // si la fecha de nacimiento no es válida, mostrar un mensaje de error y volver
-        // a pedir la fecha de nacimiento
-        while (!isFechaNacimientoClienteActualizarDatosValida) {
-            try {
-                fechaNacimientoClienteActualizarDatos = sdf.parse(fechaNacimientoClienteActualizarDatosStr);
-                isFechaNacimientoClienteActualizarDatosValida = true;
-            } catch (ParseException e) {
-                JOptionPane.showMessageDialog(null,
-                        "La fecha de nacimiento no es válida. Por favor, ingresa una fecha de nacimiento válida.");
-                fechaNacimientoClienteActualizarDatosStr = JOptionPane
-                        .showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
-            }
+        try {
+            fechaNacimientoCliente = sdf.parse(fechaNacimientoClienteStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         // Mostrar fecha en calendario
+
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fechaNacimientoClienteActualizarDatos);
+
+        calendar.setTime(fechaNacimientoCliente);
+
         // Mostrar edad en años
         int edad = calendar.get(Calendar.YEAR);
         // Mostrar edad en meses
@@ -1534,72 +1518,69 @@ public class Main {
 
         // Continuar con el programa si es mayor de edad, sino, pedir fecha de
         // nacimiento
-        if (isAdult(fechaNacimientoClienteActualizarDatos, now)) {
+
+        if (isAdult(fechaNacimientoCliente, now)) {
             JOptionPane.showMessageDialog(null,
-                    "Fecha de nacimiento: " + fechaNacimientoClienteActualizarDatos + "\nEdad: " + edad + " años, "
-                            + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos
-                            + " minutos, " + edadSegundos + " segundos");
+                    "Fecha de nacimiento: " + fechaNacimientoCliente + "\nEdad: " + edad + " años, " + edadMeses
+                            + " meses, " + edadDias + " dias, " + edadHoras + " horas, " + edadMinutos + " minutos, "
+                            + edadSegundos + " segundos");
         } else {
             JOptionPane.showMessageDialog(null,
                     "No eres mayor de edad, por favor ingresa una fecha de nacimiento válida.");
-            fechaNacimientoClienteActualizarDatosStr = JOptionPane
-                    .showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
+            fechaNacimientoClienteStr = JOptionPane.showInputDialog("Ingrese su fecha de nacimiento (dd/MM/yyyy): ");
             try {
-                fechaNacimientoClienteActualizarDatos = sdf.parse(fechaNacimientoClienteActualizarDatosStr);
+                fechaNacimientoCliente = sdf.parse(fechaNacimientoClienteStr);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
-        String direccionClienteActualizarDatos = JOptionPane.showInputDialog("Ingrese su direccion: ");
+        String direccionCliente = JOptionPane.showInputDialog("Ingrese la direccion del cliente: ");
 
         // Desplegar select con los tipos de cuenta
-        String tipoCuentaClienteActualizarDatos = JOptionPane
-                .showInputDialog("Ingrese el codigo de su tipo de cuenta: " +
-                        "\n1. Ahorros" +
-                        "\n2. Corriente", generateTipoCuentas());
+
+        String tipoCuentaCliente = JOptionPane.showInputDialog("Ingrese el codigo del tipo de cuenta del cliente: " +
+                "\n1. Ahorros" +
+                "\n2. Corriente");
 
         // validar que el tipo de cuenta exista
-        // boolean isTipoCuentaValido =
-        // validateTipoCuentaConCode(tipoCuentaClienteActualizarDatos, tipoCuentas);
+
+        boolean isTipoCuentaValido = validateTipoCuentaConCode(tipoCuentaCliente, tipoCuentas);
 
         // si el tipo de cuenta no es válido, mostrar un mensaje de error y volver a
-        // pedir el código del tipo de cuenta
-        /*
-         * while (!isTipoCuentaValido) {
-         * JOptionPane.showMessageDialog(null,
-         * "El código del tipo de cuenta no es válido. Por favor, ingresa un código válido."
-         * );
-         * tipoCuentaClienteActualizarDatos =
-         * JOptionPane.showInputDialog("Ingrese el codigo de su tipo de cuenta: " +
-         * "\n1. Ahorros" +
-         * "\n2. Corriente", generateTipoCuentas());
-         * isTipoCuentaValido =
-         * validateTipoCuentaConCode(tipoCuentaClienteActualizarDatos, tipoCuentas);
-         * }
-         */
 
-        String tipoCuentaClienteActualizarDatosDescription = "";
+        // pedir el código del tipo de cuenta
+
+        while (!isTipoCuentaValido) {
+            JOptionPane.showMessageDialog(null,
+                    "El código del tipo de cuenta no es válido. Por favor, ingresa un código válido.");
+            tipoCuentaCliente = JOptionPane.showInputDialog("Ingrese el código de su tipo de cuenta: " +
+                    "\n1. Ahorros" +
+                    "\n2. Corriente", generateTipoCuentas());
+            isTipoCuentaValido = validateTipoCuentaConCode(tipoCuentaCliente, tipoCuentas);
+        }
+
+        String tipoCuentaClienteDescription = "";
 
         // Recorrer los tipos de cuenta
-        /*
-         * for (int i = 0; i < tipoCuentasA.size(); i++) {
-         * //Obtener el tipo de cuenta actual
-         * tipoCuenta tipoCuenta = tipoCuentasA.get(i);
-         * 
-         * //Obtener el código del tipo de cuenta actual
-         * String codeTipoCuenta = tipoCuenta.getCodigo();
-         * 
-         * //Comparar el código del tipo de cuenta actual con el código que se está
-         * buscando
-         * if (codeTipoCuenta.equals(tipoCuentaClienteActualizarDatos)) {
-         * //Obtener la descripción del tipo de cuenta actual
-         * tipoCuentaClienteActualizarDatosDescription = tipoCuenta.getDescripcion();
-         * }
-         * }
-         */
+
+        for (int i = 0; i < tipoCuentas.size(); i++) {
+            // Obtener el tipo de cuenta actual
+            TipoCuenta tipoCuenta = tipoCuentas.get(i);
+
+            // Obtener el código del tipo de cuenta actual
+            String codeTipoCuenta = tipoCuenta.getCodigo();
+
+            // Comparar el código del tipo de cuenta actual con el código que se está
+            // buscando
+            if (codeTipoCuenta.equals(tipoCuentaCliente)) {
+                // Obtener la descripción del tipo de cuenta actual
+                tipoCuentaClienteDescription = tipoCuenta.getDescripcion();
+            }
+        }
 
         // Inicializar varibles informacion adicional al seleccionar el tipo de cuenta
+
         // Corriente
         String nombreEmpresa = "";
         int nit = 0;
@@ -1610,7 +1591,8 @@ public class Main {
 
         // Condicion para imprimir informacion adicional al seleccionar el tipo de
         // cuenta Corriente
-        if (tipoCuentaClienteActualizarDatos.equals("2")) {
+
+        if (tipoCuentaCliente.equals("2")) {
             JOptionPane.showMessageDialog(null, "Informacion adicional al seleccionar el tipo de cuenta Corriente");
             // Guardar nombre de la empresa
             nombreEmpresa = JOptionPane.showInputDialog("Ingrese el nombre de la empresa: ");
@@ -1641,189 +1623,180 @@ public class Main {
         }
 
         // Mostrar tipo de cuenta
-        JOptionPane.showMessageDialog(null, "Tipo de cuenta: " + tipoCuentaClienteActualizarDatosDescription);
+        JOptionPane.showMessageDialog(null, "Tipo de cuenta: " + tipoCuentaClienteDescription);
 
         // Numero de cuenta del cliente aleatorio de 5 digitos e irrepetible
         int numeroCuentaClienteActualizarDatos = (int) (Math.random() * 90000) + 10000;
         JOptionPane.showMessageDialog(null, "Numero de cuenta: " + numeroCuentaClienteActualizarDatos);
 
         // Desplegar select con los estados de cuenta
-        String estadoCuentaClienteActualizarDatos = ChooseEstadoCuentaCliente();
-        boolean isEstadoCuentaClienteActualizarDatos = estadoCuentaClienteActualizarDatos.equals("Activa");
+
+        String estadoCuentaCliente = ChooseEstadoCuentaCliente();
+
+        boolean isEstadoCuentaCliente = estadoCuentaCliente.equals("Activa");
+
         System.out.println("Estado de cuenta");
-        System.out.println(isEstadoCuentaClienteActualizarDatos);
+
+        System.out.println(isEstadoCuentaCliente);
 
         // Saldo inicial del cliente
-        double saldoInicialClienteActualizarDatos = 0;
-        JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialClienteActualizarDatos);
+
+        double saldoInicialCliente = 0;
+
+        JOptionPane.showMessageDialog(null, "Saldo inicial: " + saldoInicialCliente);
 
         // Imprimir datos del cliente
 
         // Crear el objeto cliente
-        Cliente cliente = new Cliente();
+
+        Cliente cliente = null;
+
+        try {
+            cliente = new Cliente(Integer.parseInt(identificationCliente), nombreCliente, apellidoCliente,
+                    fechaNacimientoCliente, direccionCliente, tipoCuentaCliente,
+                    numeroCuentaClienteActualizarDatos, isEstadoCuentaCliente, saldoInicialCliente);
+
+            System.out.println("Cliente creado: " + cliente.toString());
+        } catch (NumberFormatException e) {
+            // Manejo de excepción en caso de que identificacionCliente no sea un número
+            // válido
+            e.printStackTrace(); // Imprime la traza de la pila para depuración
+        } catch (Exception e) {
+            // Otras excepciones generales
+            JOptionPane.showMessageDialog(null, "Error al crear el cliente");
+            return null;
+        }
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
                 "Tramite: Actualizar datos Cliente\n" +
-                "Cliente: " + cliente.getNombre() + " " + cliente.getApellido() + "\n" +
-                "Fecha de nacimiento: " + fechaNacimientoClienteActualizarDatos + "\n" +
+                "Cliente: " + nombreCliente + " " + cliente.getApellido() + "\n" +
+                "Identificacion: " + identificationCliente + "\n" +
+                "Fecha de nacimiento: " + fechaNacimientoCliente + "\n" +
                 "Edad: " + edad + " años, " + edadMeses + " meses, " + edadDias + " dias, " + edadHoras + " horas, "
                 + edadMinutos + " minutos, " + edadSegundos + " segundos\n" +
-                "Direccion: " + direccionClienteActualizarDatos + "\n" +
-                "Tipo de cuenta: " + tipoCuentaClienteActualizarDatosDescription + "\n" +
+                "Direccion: " + direccionCliente + "\n" +
+                "Tipo de cuenta: " + tipoCuentaClienteDescription + "\n" +
                 // Condicion para imprimir informacion adicional al seleccionar el tipo de
                 // cuenta Corriente
-                (tipoCuentaClienteActualizarDatos.equals("2") ? "Nombre de la empresa: " + nombreEmpresa + "\n" +
+                (tipoCuentaCliente.equals("2") ? "Nombre de la empresa: " + nombreEmpresa + "\n" +
                         "NIT de la empresa: " + nit + "\n" +
                         "Numero de telefono de la empresa: " + telefonoEmpresa + "\n" +
                         "Nombre del representante legal de la empresa: " + nombreRepresentante + "\n" +
                         "Numero de identificacion del representante legal de la empresa: " + telefonoRepresentante
                         + "\n" +
                         "Direccion de la empresa: " + direccionEmpresa + "\n" : "")
-                +
-                "" +
+                + "" +
                 "Numero de cuenta: " + numeroCuentaClienteActualizarDatos + "\n" +
-                "Estado de cuenta: " + estadoCuentaClienteActualizarDatos + "\n" +
-                "Saldo disponible: " + saldoInicialClienteActualizarDatos + "\n" +
+                "Estado de cuenta: " + estadoCuentaCliente + "\n" +
+                "Saldo disponible: " + saldoInicialCliente + "\n" +
                 "...¡Tramite Actualizar datos Cliente exitoso!...\n" +
-                // "Atendido por el empleado: " + nombreEmpleadoAsesorVentas + "\n" +
                 "Fecha: " + now + "\n" +
                 "Hora: " + now + "\n" +
-                ":::::::::::::::::::::::::::::::::::::::"
-
-        );
-
-        
+                ":::::::::::::::::::::::::::::::::::::::");
 
         return tramite;
     }
 
-    // Asignar id tramite aleatorio a Consignacion y Retiro
+    // Mostrar valor Tramite de consignacion y retiro
 
-    static Tramite idTramite(ArrayList<Tramite> tramites) {
-        // Crear tramite
-        Tramite tramite = new Tramite();
+    // Mostrar informe de todas las transacciones realizadas (Consignaciones y
+    // Retiros)
 
-        // Numero de tramite de 5 digitos e irrepetible
-        int idTramite = (int) (Math.random() * 90000) + 10000;
-        JOptionPane.showMessageDialog(null, "ID Tramite: " + idTramite);
+    static void auditoriaTramite(ArrayList<Tramite> tramites) {
+        // // Crear tramite
+        // Tramite tramite = new Tramite();
+
+        // int idTramite = (int) (Math.random() * 90000) + 10000;
+        // JOptionPane.showMessageDialog(null, "ID Tramite: " + idTramite);
 
         // Guardar id tramite
 
-        tramite.setIdTramite(idTramite);
+        // tramite.setIdTramite(idTramite);
 
-        return null;
-
-    }
-
-    // Mostrar valor Tramite de consignacion y retiro
-
-    // Mostrar informe de todas las transacciones realizadas (Consignaciones y Retiros)
-
-    static Tramite auditoriaTramite(ArrayList<Tramite> tramites){
-        // Crear tramite
-        Tramite tramite = new Tramite();
-
-        //Consultar consignaciones totales realizadas
+        // Consultar consignaciones totales realizadas
         int consignacionesTotales = 0;
-
-        for (Tramite tramiteActual : tramites) {
-            if (tramiteActual.getTipoTramite().equals("Consignacion")) {
-                consignacionesTotales++;
-            }
-        }
-
-        //Consultar retiros totales realizados
-
         int retirosTotales = 0;
 
-        for (Tramite tramiteActual : tramites) {
-            if (tramiteActual.getTipoTramite().equals("Retiro")) {
-                retirosTotales++;
-            }
+        double valorConsignacionTotal = 0;
+        double valorRetiroTotal = 0;
+
+
+
+        // for (Cliente cliente : clientes) {
+        // if (cliente.apellido.equals(apellido)) {
+        // return cliente;
+        // }
+        // }
+
+        // obtener tramites tipo consignacion
+
+        ArrayList<Tramite> tramiteConsignacion = Tramite.obtenerConTipoTramite("Consignacion", tramites);
+
+        ArrayList<Tramite> tramiteRetiro = Tramite.obtenerConTipoTramite("Retiro", tramites);
+
+        String formatTramiteConsignacion = "";
+        String formatTramiteRetiro = "";
+
+        for (Tramite tramiteActual : tramiteConsignacion) {
+            formatTramiteConsignacion += tramiteActual.formatTramite() + "\n";
+
+            consignacionesTotales++;
+            valorConsignacionTotal += tramiteActual.getValorTramite();
         }
 
-        // Consultar ArrayList Empleado y Cliente, mostrar identificacion
-
-        
-
-
-
-
-
-        
-
-
-        
+        for (Tramite tramiteActual : tramiteRetiro) {
+            formatTramiteRetiro += tramiteActual.formatTramite() + "\n";
+            retirosTotales++;
+            valorRetiroTotal += tramiteActual.getValorTramite();
+        }
 
 
 
-        //Imprimir informe de todas las transacciones realizadas (Consignaciones y Retiros)
+        // for (Tramite tramiteActual : tramites) {
+
+        // System.out.println("Tramite actual: " + tramiteActual.toString());
+        // System.out.println(tramiteActual.getTipoTramite());
+
+        // if (tramiteActual.getTipoTramite().equals("Consignacion")) {
+        // consignacionesTotales++;
+        // }
+        // }
+
+        // Consultar retiros totales realizados
+
+
+        // for (Tramite tramiteActual : tramites) {
+        // if (tramiteActual.getTipoTramite().equals("Retiro")) {
+        // retirosTotales++;
+        // }
+        // }
+
+        // Imprimir informe de todas las transacciones realizadas (Consignaciones y
+        // Retiros)
 
         System.out.println(":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
                 "Tramite: Auditoria de Consignaciones\n" +
-                "ID Tramite: " + tramite.getIdTramite() + "\n" +
+                // "ID Tramite: " + tramite.getIdTramite() + "\n" +
                 "ID Empleado -> ID Cliente -> Cuenta -> Valor\n" +
+                formatTramiteConsignacion +
+
                 "Consignaciones totales realizadas: " + consignacionesTotales + "\n" +
-                "Dinero consignado: " + tramite.getValorTramite() + "\n" +
+                "Dinero Consignado: " + valorConsignacionTotal + "\n" +
+                // "Dinero consignado: " + tramite.getValorTramite() + "\n" +
                 ":::::::::::::::::::::::::::::::::::::::\n" +
                 "\n" +
                 ":::::::::::::::::::::::::::::::::::::::\n" +
                 "First Bank of Spring field - Monteria\n" +
                 "Tramite: Auditoria de Retiros\n" +
-                "ID Tramite: " + tramite.getIdTramite() + "\n" +
+                // "ID Tramite: " + tramite.getIdTramite() + "\n" +
                 "ID Empleado -> ID Cliente -> Cuenta -> Valor\n" +
-                
+                formatTramiteRetiro +
                 "Retiros totales realizados: " + retirosTotales + "\n" +
-                "...¡Tramite Auditoria exitoso!...\n" +
-                ":::::::::::::::::::::::::::::::::::::::"
-        );
-
-
-
-
-        return null;
-
+                "Dinero Retirado: " + valorRetiroTotal + "\n" +
+                "...¡Tramite Auditoria exitosa!...\n" +
+                ":::::::::::::::::::::::::::::::::::::::");
     }
-    
-
-    /*
-     * /Informacion adicional al seleccionar el tipo de cuenta Corriente
-     * static void InformacionAdicionalCorriente() {
-     * JOptionPane.showMessageDialog(null,
-     * "Informacion adicional al seleccionar el tipo de cuenta Corriente");
-     * //Guardar nombre de la empresa
-     * String nombreEmpresa =
-     * JOptionPane.showInputDialog("Ingrese el nombre de la empresa: ");
-     * //Guardar NIT de la empresa
-     * int nit =
-     * Integer.parseInt(JOptionPane.showInputDialog("Ingrese el NIT de la empresa: "
-     * ));
-     * //Guardar numero de telefono de la empresa
-     * int telefonoEmpresa = Integer.parseInt(JOptionPane.
-     * showInputDialog("Ingrese el numero de telefono de la empresa: "));
-     * //Guardar nombre del representante legal de la empresa
-     * String representanteLegal = JOptionPane.
-     * showInputDialog("Ingrese el nombre del representante legal de la empresa: ");
-     * //Guardar numero de identificacion del representante legal de la empresa
-     * int telefonoRepresentante = Integer.parseInt(JOptionPane.
-     * showInputDialog("Ingrese el numero de identificacion del representante legal de la empresa: "
-     * ));
-     * JOptionPane.showMessageDialog(null,
-     * "Ingrese el numero de telefono del representante legal de la empresa: ");
-     * //Guardar numero de telefono del representante legal de la empresa
-     * String direccionEmpresa = JOptionPane.
-     * showInputDialog("Ingrese el numero de telefono del representante legal de la empresa: "
-     * );
-     * 
-     * 
-     * }
-     * 
-     * 
-     * 
-     */
-
-
 
 }

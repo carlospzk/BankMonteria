@@ -139,9 +139,18 @@ public class Cliente extends Persona {
       return null;
     }
 
-  public static Cliente obtenerNombreCliente(String nombre, ArrayList<Cliente> clientes) {
+  public static Cliente obtenerNombreCliente(String nombre, String apellido, ArrayList<Cliente> clientes) {
     for (Cliente cliente : clientes) {
-      if (cliente.nombre.equals(nombre)) {
+      if (cliente.nombre.equals(nombre) && cliente.apellido.equals(apellido)) {
+        return cliente;
+      }
+    }
+    return null;
+  }
+
+  public static Cliente obtenerApellidoCliente(String apellido, ArrayList<Cliente> clientes) {
+    for (Cliente cliente : clientes) {
+      if (cliente.apellido.equals(apellido)) {
         return cliente;
       }
     }
